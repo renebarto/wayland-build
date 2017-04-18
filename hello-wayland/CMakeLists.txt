@@ -24,3 +24,4 @@ target_link_libraries(${PROJECT_NAME} ${WAYLAND_CLIENT_LIBRARIES})
 
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${DATA_FILES} $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+add_dependencies(${PROJECT_NAME} libffi)

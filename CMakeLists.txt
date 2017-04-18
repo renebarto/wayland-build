@@ -5,6 +5,8 @@ set(CMAKE_MODULE_PATH
         ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake CACHE STRING
         "CMake module path." FORCE)
 
+include(utilities)
+
 include_directories(${CMAKE_SOURCE_DIR})
 
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
@@ -31,11 +33,11 @@ set(BUILD_BASE_DIR ${CMAKE_SOURCE_DIR}/build CACHE STRING
         "Build root directory.")
 set(CMAKE_BINARY_DIR ${BUILD_BASE_DIR}/${CONFIG_DIR} CACHE STRING
         "Build directory.")
-message(STATUS "Build base directory: " ${BUILD_BASE_DIR})
-message(STATUS "Build config directory: " ${CMAKE_BINARY_DIR})
+message(STATUS "Build base directory:         " ${BUILD_BASE_DIR})
+message(STATUS "Build config directory:       " ${CMAKE_BINARY_DIR})
 
 set(OUTPUT_BASE_DIR ${CMAKE_SOURCE_DIR}/output)
-message(STATUS "Output base directory: " ${OUTPUT_BASE_DIR})
+message(STATUS "Output base directory:        " ${OUTPUT_BASE_DIR})
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_BASE_DIR}/lib)
 message(STATUS "Static lib output directory:  " ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
@@ -44,5 +46,16 @@ message(STATUS "Dynamic lib output directory: " ${CMAKE_LIBRARY_OUTPUT_DIRECTORY
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_BASE_DIR}/bin)
 message(STATUS "Executable output directory:  " ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
+message(STATUS "Install directory:            " ${CMAKE_PREFIX_PATH})
+
+set(PACKAGE_DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/download)
+mkdir(${PACKAGE_DOWNLOAD_DIR})
+set(PACKAGE_BUILD_DIR ${CMAKE_SOURCE_DIR}/build)
+mkdir(${PACKAGE_BUILD_DIR})
+set(PACKAGE_STAMP_DIR ${CMAKE_SOURCE_DIR}/stamp)
+mkdir(${PACKAGE_STAMP_DIR})
+
+add_subdirectory(package)
+#add_subdirectory(wayland)
 add_subdirectory(hello-wayland)
-add_subdirectory(wayland-simple-egl)
+#add_subdirectory(wayland-simple-egl)
