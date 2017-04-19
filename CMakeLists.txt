@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.5)
 project(wayland-simple-egl)
 
 set(CMAKE_MODULE_PATH
@@ -54,6 +54,8 @@ set(PACKAGE_BUILD_DIR ${CMAKE_SOURCE_DIR}/build)
 mkdir(${PACKAGE_BUILD_DIR})
 set(PACKAGE_STAMP_DIR ${CMAKE_SOURCE_DIR}/stamp)
 mkdir(${PACKAGE_STAMP_DIR})
+set(PACKAGE_STAGING_DIR ${CMAKE_SOURCE_DIR}/staging)
+mkdir(${PACKAGE_STAGING_DIR})
 
 add_subdirectory(package)
 #add_subdirectory(wayland)

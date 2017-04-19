@@ -18,10 +18,14 @@ set(DATA_FILES
 
 message(STATUS ${SOURCE_FILES})
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
-target_include_directories(${PROJECT_NAME} PRIVATE ${WAYLAND_CLIENT_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} ${WAYLAND_CLIENT_LIBRARIES})
+#add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
+#target_include_directories(${PROJECT_NAME} PRIVATE ${WAYLAND_CLIENT_INCLUDE_DIR})
+#target_link_libraries(${PROJECT_NAME} ${WAYLAND_CLIENT_LIBRARIES})
+#add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${DATA_FILES} $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 
-add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${DATA_FILES} $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+#add_custom_target(${PROJECT_NAME} DEPENDS libffi
+#    COMMAND ${CMAKE_COMMAND} -E echo Build ${PROJECT_NAME})
+add_custom_target(${PROJECT_NAME} ALL
+    COMMENT "Command ${PROJECT_NAME}")
 add_dependencies(${PROJECT_NAME} libffi)
