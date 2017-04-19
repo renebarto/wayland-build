@@ -5,8 +5,6 @@ set(CMAKE_MODULE_PATH
         ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake CACHE STRING
         "CMake module path." FORCE)
 
-include(utilities)
-
 include_directories(${CMAKE_SOURCE_DIR})
 
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
@@ -17,13 +15,14 @@ set(BUILD_TESTS ON)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_COLOR_MAKEFILE   ON)
 
-if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" OR
+   "${CMAKE_BUILD_TYPE}" STREQUAL "")
     set(CONFIG_DIR "debug" CACHE STRING "Build config directory" FORCE)
-elseif(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+elseif("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
     set(CONFIG_DIR "release" CACHE STRING "Build config directory" FORCE)
-elseif(${CMAKE_BUILD_TYPE} STREQUAL "MinSizeRel")
+elseif("${CMAKE_BUILD_TYPE}" STREQUAL "MinSizeRel")
     set(CONFIG_DIR "releaseMinSize" CACHE STRING "Build config directory" FORCE)
-elseif(${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo")
+elseif("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo")
     set(CONFIG_DIR "releaseMinSize" CACHE STRING "Build config directory" FORCE)
 else()
     message(FATAL_ERROR "Invalid build type: " ${CMAKE_BUILD_TYPE})
@@ -46,16 +45,17 @@ message(STATUS "Dynamic lib output directory: " ${CMAKE_LIBRARY_OUTPUT_DIRECTORY
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_BASE_DIR}/bin)
 message(STATUS "Executable output directory:  " ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
-message(STATUS "Install directory:            " ${CMAKE_PREFIX_PATH})
-
 set(PACKAGE_DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/download)
-mkdir(${PACKAGE_DOWNLOAD_DIR})
+message(STATUS "Download directory:           " ${PACKAGE_DOWNLOAD_DIR})
 set(PACKAGE_BUILD_DIR ${CMAKE_SOURCE_DIR}/build)
-mkdir(${PACKAGE_BUILD_DIR})
+message(STATUS "Build directory:              " ${PACKAGE_BUILD_DIR})
 set(PACKAGE_STAMP_DIR ${CMAKE_SOURCE_DIR}/stamp)
-mkdir(${PACKAGE_STAMP_DIR})
+message(STATUS "Stamp directory:              " ${PACKAGE_STAMP_DIR})
 set(PACKAGE_STAGING_DIR ${CMAKE_SOURCE_DIR}/staging)
-mkdir(${PACKAGE_STAGING_DIR})
+
+set(CMAKE_PREFIX_PATH ${INSTALL_PATH})
+message(STATUS "Staging directory:            " ${CMAKE_PREFIX_PATH})
+message(STATUS "Install directory:            " ${INSTALL_PATH})
 
 add_subdirectory(package)
 #add_subdirectory(wayland)

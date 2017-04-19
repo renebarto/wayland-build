@@ -36,7 +36,7 @@ set(LIBFFI_LIBRARIES ${LIBFFI_LIBRARY} )
 set(LIBFFI_INCLUDE_DIR ${LIBFFI_INCLUDE_DIRS} )
 
 include(FindPackageHandleStandardArgs)
-# handle the QUIETLY and REQUIRED arguments and set LIBXML2_FOUND to TRUE
+# handle the QUIET and REQUIRED arguments and set LIBFFI_FOUND to TRUE
 # if all listed variables are TRUE
 find_package_handle_standard_args(LibFFI DEFAULT_MSG
         LIBFFI_LIBRARY LIBFFI_INCLUDE_DIR)

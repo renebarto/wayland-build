@@ -1,15 +1,15 @@
-project(libffi)
+project(expat)
 
-find_package(LibFFI QUIET)
+#find_package(EXPAT QUIET)
 
 set(MODULE ${PROJECT_NAME})
-set(VERSION 3.2.1)
+set(VERSION 2.2.0)
 set(BASE ${MODULE}-${VERSION})
 
-if (NOT LIBFFI_FOUND)
-    set(EXTENSION tar.gz)
+if (NOT EXPAT_FOUND)
+    set(EXTENSION tar.bz2)
     set(FULLNAME ${BASE}.${EXTENSION})
-    set(SITE ftp://sourceware.org/pub/libffi)
+    set(SITE http://downloads.sourceforge.net/project/expat/expat/${VERSION})
     set(DOWNLOAD_DIR ${PACKAGE_DOWNLOAD_DIR})
     set(STAMP_DIR ${PACKAGE_STAMP_DIR}/${BASE})
     setup_package_automake(
@@ -22,8 +22,11 @@ if (NOT LIBFFI_FOUND)
         ${FULLNAME}
         ${MODULE}
         ${BASE}
-        "0001-Patch-for-correct-header-export.patch"
+        ""
         "./configure --prefix=${CMAKE_PREFIX_PATH} --disable-static")
+    install(FILES ${PACKAGE_BUILD_DIR}/${BASE}/doc/*.html DESTINATION "${CMAKE_INSTALL_PREFIX}/share/doc/${BASE}")
+    install(FILES ${PACKAGE_BUILD_DIR}/${BASE}/doc/*.png DESTINATION "${CMAKE_INSTALL_PREFIX}/share/doc/${BASE}")
+    install(FILES ${PACKAGE_BUILD_DIR}/${BASE}/doc/*.css DESTINATION "${CMAKE_INSTALL_PREFIX}/share/doc/${BASE}")
 else()
     add_custom_target(${BASE})
 endif()
