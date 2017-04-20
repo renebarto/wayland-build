@@ -3,17 +3,12 @@ function(mkdir name)
     execute_process(COMMAND mkdir -pv ${name})
 endfunction()
 
-# Get archive
-function(wget url workingdir)
-    mkdir(${workingdir})
-    execute_process(COMMAND wget ${url}
-            WORKING_DIRECTORY ${workingdir})
-endfunction()
-
-# Extract tar
-function(tar_extract archive directory workingdir)
-    mkdir(${workingdir})
-    execute_process(COMMAND tar xf ${archive} -C {directory}
-            WORKING_DIRECTORY ${workingdir})
+# do_install
+# A direct install script, copying files directly
+function(do_install source destination)
+    add_custom_target(install_${source}_${destination}
+        COMMAND ${CMAKE_COMMAND} -E copy ${source} ${destination}
+        COMMENT "Creating directories"
+        VERBATIM)
 endfunction()
 

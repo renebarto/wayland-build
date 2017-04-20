@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(wayland-simple-egl)
+project(wayland-apps)
 
 set(CMAKE_MODULE_PATH
         ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake CACHE STRING
@@ -53,8 +53,8 @@ set(PACKAGE_STAMP_DIR ${CMAKE_SOURCE_DIR}/stamp)
 message(STATUS "Stamp directory:              " ${PACKAGE_STAMP_DIR})
 set(PACKAGE_STAGING_DIR ${CMAKE_SOURCE_DIR}/staging)
 
-set(CMAKE_PREFIX_PATH ${INSTALL_PATH})
-message(STATUS "Staging directory:            " ${CMAKE_PREFIX_PATH})
+set(CMAKE_INSTALL_PREFIX ${INSTALL_PATH} CACHE PATH "Install directory" FORCE)
+message(STATUS "Staging directory:            " ${CMAKE_INSTALL_PREFIX})
 message(STATUS "Install directory:            " ${INSTALL_PATH})
 
 add_subdirectory(package)

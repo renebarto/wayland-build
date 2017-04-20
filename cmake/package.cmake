@@ -37,7 +37,7 @@ function(setup_download_command name)
         COMMENT "Downloading ${name}"
         WORKING_DIRECTORY ${DOWNLOAD_DIR}
         VERBATIM)
-    message(STATUS "setup_download_command")
+#    message(STATUS "setup_download_command")
 endfunction()
 
 function(setup_extract_command name)
@@ -56,7 +56,7 @@ function(setup_extract_command name)
         COMMENT "Extracting ${name}"
         WORKING_DIRECTORY ${BUILD_DIR}
         VERBATIM)
-    message(STATUS "setup_extract_command")
+#    message(STATUS "setup_extract_command")
 endfunction()
 
 function(setup_patch_command name)
@@ -72,7 +72,7 @@ function(setup_patch_command name)
         set(STAMP_PATCH_VAL ${STAMP_DIR}/stamp_patch-${VAL})
         message(STATUS "PATCH ${VAL}")
         add_custom_target(patch_${VAL}
-            COMMAND patch -p0 -i ${PACKAGE_DIR}/${VAL}
+            COMMAND patch -p0 -f -N -i ${PACKAGE_DIR}/${VAL}
             DEPENDS ${STAMP_EXTRACT}
             COMMENT "Applying patch ${VAL}"
             WORKING_DIRECTORY ${BUILD_DIR}/${name}
@@ -86,7 +86,7 @@ function(setup_patch_command name)
         COMMENT "Patching ${name}"
         WORKING_DIRECTORY ${BUILD_DIR}/${name}
         VERBATIM)
-    message(STATUS "setup_patch_command")
+#    message(STATUS "setup_patch_command")
 endfunction()
 
 function(setup_configure_command name)
@@ -104,7 +104,7 @@ function(setup_configure_command name)
         COMMENT "Configuring ${name}"
         WORKING_DIRECTORY ${BUILD_DIR}/${name}
         VERBATIM)
-    message(STATUS "setup_configure_command")
+#    message(STATUS "setup_configure_command")
 endfunction()
 
 function(setup_make_command name)
@@ -121,7 +121,7 @@ function(setup_make_command name)
         COMMENT "Building ${name}"
         WORKING_DIRECTORY ${BUILD_DIR}/${name}
         VERBATIM)
-    message(STATUS "setup_make_command")
+#    message(STATUS "setup_make_command")
 endfunction()
 
 function(setup_check_command name)
@@ -138,7 +138,7 @@ function(setup_check_command name)
         COMMENT "Checking ${name}"
         WORKING_DIRECTORY ${BUILD_DIR}/${name}
         VERBATIM)
-    message(STATUS "setup_check_command")
+#    message(STATUS "setup_check_command")
 endfunction()
 
 function(setup_staging_command name)
@@ -155,7 +155,7 @@ function(setup_staging_command name)
         COMMENT "Staging ${name} - skipping for now"
         WORKING_DIRECTORY ${BUILD_DIR}/${name}
         VERBATIM)
-    message(STATUS "setup_staging_command")
+#    message(STATUS "setup_staging_command")
 endfunction()
 
 function(setup_install_command name)
@@ -172,7 +172,7 @@ function(setup_install_command name)
         COMMENT "Installing ${name}"
         WORKING_DIRECTORY ${BUILD_DIR}/${name}
         VERBATIM)
-    message(STATUS "setup_install_command")
+#    message(STATUS "setup_install_command")
 endfunction()
 
 function(setup_complete_command name)
@@ -186,7 +186,14 @@ function(setup_complete_command name)
         COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_INSTALL}
         COMMENT "Finalizing ${name}"
         VERBATIM)
-    message(STATUS "setup_complete_command")
+#    message(STATUS "setup_complete_command")
+endfunction()
+
+function(add_auxiliary_target name extension)
+    get_property(STAMP_DIR TARGET ${name}         PROPERTY _PKG_STAMP_DIR)
+
+    set(STAMP_COMPLETE ${STAMP_DIR}/stamp_complete)
+    add_custom_target(${name}-${extension} ALL DEPENDS ${STAMP_COMPLETE})
 endfunction()
 
 function (setup_package_automake

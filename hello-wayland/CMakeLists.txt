@@ -28,4 +28,5 @@ message(STATUS ${SOURCE_FILES})
 #    COMMAND ${CMAKE_COMMAND} -E echo Build ${PROJECT_NAME})
 add_custom_target(${PROJECT_NAME} ALL
     COMMENT "Command ${PROJECT_NAME}")
-add_dependencies(${PROJECT_NAME} libffi-3.2.1 expat-2.2.0)
+#add_dependencies(${PROJECT_NAME} libffi-3.2.1 expat-2.2.0 libxml2-2.9.4)
+add_dependencies(${PROJECT_NAME} libxml2-2.9.4)
