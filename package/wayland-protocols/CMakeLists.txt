@@ -1,0 +1,32 @@
+project(wayland-protocols)
+
+include(utilities)
+find_package(WaylandProtocols QUIET)
+
+set(WAYLAND_PROTOCOLS_FOUND FALSE)
+
+set(WAYLAND_PROTOCOLS_MODULE ${PROJECT_NAME})
+set(WAYLAND_PROTOCOLS_VERSION 1.7)
+set(WAYLAND_PROTOCOLS_BASE ${WAYLAND_PROTOCOLS_MODULE}-${WAYLAND_PROTOCOLS_VERSION})
+
+if (NOT WAYLAND_PROTOCOLS_FOUND)
+    set(WAYLAND_PROTOCOLS_EXTENSION tar.xz)
+    set(WAYLAND_PROTOCOLS_FULLNAME ${WAYLAND_PROTOCOLS_BASE}.${WAYLAND_PROTOCOLS_EXTENSION})
+    set(WAYLAND_PROTOCOLS_SITE http://wayland.freedesktop.org/releases)
+    set(WAYLAND_PROTOCOLS_STAMP_DIR ${PACKAGE_STAMP_DIR}/${WAYLAND_PROTOCOLS_BASE})
+    setup_package_automake(
+        ${PACKAGE_DOWNLOAD_DIR}
+        ${PACKAGE_BUILD_DIR}
+        ${PACKAGE_STAGING_DIR}
+        ${WAYLAND_PROTOCOLS_STAMP_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${WAYLAND_PROTOCOLS_SITE}
+        ${WAYLAND_PROTOCOLS_FULLNAME}
+        ${WAYLAND_PROTOCOLS_MODULE}
+        ${WAYLAND_PROTOCOLS_BASE}
+        ""
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX}")
+    add_dependencies(${WAYLAND_PROTOCOLS_BASE} libffi-3.2.1 expat-2.2.0 libxml2-2.9.4)
+else()
+    add_custom_target(${WAYLAND_PROTOCOLS_BASE})
+endif()

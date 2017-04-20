@@ -40,4 +40,11 @@ endif ()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(WaylandProtocols DEFAULT_MSG WAYLAND_PROTOCOLS_PATH)
+
+if (WAYLAND_PROTOCOLS_FOUND)
+    message(STATUS "Found wayland-protocols")
+else()
+    message(WARNING "Could not find wayland-protocols, please install: sudo apt-get install wayland-protocols")
+endif()
+
 mark_as_advanced(WAYLAND_PROTOCOLS_PATH)

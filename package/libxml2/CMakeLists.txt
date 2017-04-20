@@ -1,7 +1,7 @@
 project(libxml2)
 
-#include(utilities)
-#find_package(LibXml2 QUIET)
+include(utilities)
+find_package(LibXml2 QUIET)
 
 set(LIBXML2_FOUND FALSE)
 
@@ -25,9 +25,10 @@ if (NOT LIBXML2_FOUND)
         ${LIBXML2_FULLNAME}
         ${LIBXML2_MODULE}
         ${LIBXML2_BASE}
-        "0001-Fix-XPointer-paths-beginning-with-range-to.patch;0002-Disallow-namespace-nodes-in-XPointer-ranges.patch"
+        ""
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static --with-history --with-gnu-ld --without-python --without-debug --without-zlib --without-lzma --without-iconv")
 else()
     add_custom_target(${LIBXML2_BASE})
 endif()
 
+#"0001-Fix-XPointer-paths-beginning-with-range-to.patch;0002-Disallow-namespace-nodes-in-XPointer-ranges.patch"

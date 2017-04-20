@@ -46,4 +46,5 @@ if (LIBFFI_FOUND)
 else()
     message(WARNING "Could not find libffi, please install: sudo apt-get install libffi-dev")
 endif()
+
 mark_as_advanced(LIBFFI_INCLUDE_DIR LIBFFI_LIBRARY)

@@ -58,6 +58,5 @@ message(STATUS "Staging directory:            " ${CMAKE_INSTALL_PREFIX})
 message(STATUS "Install directory:            " ${INSTALL_PATH})
 
 add_subdirectory(package)
-#add_subdirectory(wayland)
 add_subdirectory(hello-wayland)
 #add_subdirectory(wayland-simple-egl)
