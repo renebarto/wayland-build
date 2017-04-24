@@ -17,10 +17,10 @@ Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
  src/dtddata.S | 19 +++++++++++++------
  1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/src/dtddata.S b/src/dtddata.S
+diff --git src/dtddata.S src/dtddata.S.orig
 index ce51133..ad2a4db 100644
---- a/src/dtddata.S
-+++ b/src/dtddata.S
+--- src/dtddata.S
++++ src/dtddata.S.orig
 @@ -30,17 +30,24 @@
  
  /* from: http://www.linuxjournal.com/content/embedding-file-executable-aka-hello-world-version-5967#comment-348129 */

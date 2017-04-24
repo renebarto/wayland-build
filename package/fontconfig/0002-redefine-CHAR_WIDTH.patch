@@ -1,0 +1,12 @@
+--- fontconfig/fontconfig.h.orig	2017-04-24 15:49:14.205153410 +0200
++++ fontconfig/fontconfig.h	2017-04-24 15:50:40.674725839 +0200
+@@ -128,7 +128,8 @@
+ #define FC_USER_CACHE_FILE	    ".fonts.cache-" FC_CACHE_VERSION
+ 
+ /* Adjust outline rasterizer */
+-#define FC_CHAR_WIDTH	    "charwidth"	/* Int */
++#define FC_CHARWIDTH	    "charwidth"	/* Int */
++#define FC_CHAR_WIDTH FC_CHARWIDTH
+ #define FC_CHAR_HEIGHT	    "charheight"/* Int */
+ #define FC_MATRIX	    "matrix"    /* FcMatrix */
+ 

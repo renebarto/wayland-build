@@ -1,13 +1,11 @@
 project(wayland)
 
-include(utilities)
-find_package(Wayland QUIET)
-
-set(WAYLAND_FOUND FALSE)
-
-set(WAYLAND_MODULE ${PROJECT_NAME})
 set(WAYLAND_VERSION 1.13.0)
-set(WAYLAND_BASE ${WAYLAND_MODULE}-${WAYLAND_VERSION})
+set(WAYLAND_REQUIRED_VERSION ${WAYLAND_VERSION})
+set(WAYLAND_NAME ${PROJECT_NAME})
+set(WAYLAND_BASE ${WAYLAND_NAME}-${WAYLAND_VERSION})
+
+find_package(Wayland QUIET)
 
 if (NOT WAYLAND_FOUND)
     set(WAYLAND_EXTENSION tar.xz)
@@ -22,9 +20,10 @@ if (NOT WAYLAND_FOUND)
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${WAYLAND_SITE}
         ${WAYLAND_FULLNAME}
-        ${WAYLAND_MODULE}
         ${WAYLAND_BASE}
-        ""
+        ${WAYLAND_BASE}
+        "0001-Support-architectures-with-non-empty-__USER_LABEL_PR.patch;0002-configure-add-option-to-disable-tests.patch"
+        "autoreconf"
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static --disable-documentation")
     add_dependencies(${WAYLAND_BASE} libffi-3.2.1 expat-2.2.0 libxml2-2.9.4)
 else()

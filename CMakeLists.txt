@@ -53,9 +53,11 @@ set(PACKAGE_STAMP_DIR ${CMAKE_SOURCE_DIR}/stamp)
 message(STATUS "Stamp directory:              " ${PACKAGE_STAMP_DIR})
 set(PACKAGE_STAGING_DIR ${CMAKE_SOURCE_DIR}/staging)
 
-set(CMAKE_INSTALL_PREFIX ${INSTALL_PATH} CACHE PATH "Install directory" FORCE)
+set(CMAKE_SYSROOT ${SYSROOT_PATH} CACHE PATH "System root directory" FORCE)
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SYSROOT}/usr CACHE PATH "Install directory" FORCE)
 message(STATUS "Staging directory:            " ${CMAKE_INSTALL_PREFIX})
-message(STATUS "Install directory:            " ${INSTALL_PATH})
+message(STATUS "System root directory:        " ${CMAKE_SYSROOT})
+message(STATUS "Install directory:            " ${CMAKE_SYSROOT}/usr)
 
 add_subdirectory(package)
 add_subdirectory(hello-wayland)

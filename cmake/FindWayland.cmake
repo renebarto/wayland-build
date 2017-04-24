@@ -10,81 +10,103 @@
 # WAYLAND_CLIENT_FOUND
 # WAYLAND_SERVER_FOUND
 # WAYLAND_CURSOR_FOUND
-# WAYLAND_EGL_FOUND
 # WAYLAND_CLIENT_INCLUDE_DIR
 # WAYLAND_SERVER_INCLUDE_DIR
 # WAYLAND_CURSOr_INCLUDE_DIR
-# WAYLAND_EGL_INCLUDE_DIR
 # WAYLAND_CLIENT_LIBRARIES
 # WAYLAND_SERVER_LIBRARIES
 # WAYLAND_CURSOR_LIBRARIES
-# WAYLAND_EGL_LIBRARIES
 #
 
 find_package(PkgConfig)
-pkg_check_modules(PKG_WAYLAND_CLIENT QUIET wayland-client)
-pkg_check_modules(PKG_WAYLAND_SERVER QUIET wayland-server)
-pkg_check_modules(PKG_WAYLAND_CURSOR QUIET wayland-cursor)
-pkg_check_modules(PKG_WAYLAND_EGL QUIET wayland-egl)
+pkg_check_modules(PC_WAYLAND_CLIENT QUIET wayland-client)
+pkg_check_modules(PC_WAYLAND_SERVER QUIET wayland-server)
+pkg_check_modules(PC_WAYLAND_CURSOR QUIET wayland-cursor)
 
-if (NOT PKG_WAYLAND_CLIENT_FOUND)
-    message(STATUS "No wayland-client")
+if(PC_WAYLAND_CLIENT_FOUND)
+    set(WAYLAND_CLIENT_FOUND_TEXT "Found")
 else()
-    message(STATUS "Found wayland-client")
-endif(NOT PKG_WAYLAND_CLIENT_FOUND)
+    set(WAYLAND_CLIENT_FOUND_TEXT "Not found")
+endif()
 
-if (NOT PKG_WAYLAND_SERVER_FOUND)
-    message(STATUS "No wayland-server")
+if(PC_WAYLAND_SERVER_FOUND)
+    set(WAYLAND_SERVER_FOUND_TEXT "Found")
 else()
-    message(STATUS "Found wayland-server")
-endif(NOT PKG_WAYLAND_SERVER_FOUND)
+    set(WAYLAND_SERVER_FOUND_TEXT "Not found")
+endif()
 
-if (NOT PKG_WAYLAND_CURSOR_FOUND)
-    message(STATUS "No wayland-cursor")
+if(PC_WAYLAND_CURSOR_FOUND)
+    set(WAYLAND_CURSOR_FOUND "Found")
 else()
-    message(STATUS "Found wayland-cursor")
-endif(NOT PKG_WAYLAND_CURSOR_FOUND)
+    set(WAYLAND_CURSOR_FOUND "Not found")
+endif()
 
-if (NOT PKG_WAYLAND_EGL_FOUND)
-    message(STATUS "No wayland-egl")
-else()
-    message(STATUS "Found wayland-egl")
-endif(NOT PKG_WAYLAND_EGL_FOUND)
+message(STATUS "wayland-client : ${WAYLAND_CLIENT_FOUND_TEXT}")
+message(STATUS "  version      : ${PC_WAYLAND_CLIENT_VERSION}")
+message(STATUS "  cflags       : ${PC_WAYLAND_CLIENT_CFLAGS}")
+message(STATUS "  cflags other : ${PC_WAYLAND_CLIENT_CFLAGS_OTHER}")
+message(STATUS "  include dirs : ${PC_WAYLAND_CLIENT_INCLUDE_DIRS}")
+message(STATUS "  lib dirs     : ${PC_WAYLAND_CLIENT_LIBRARY_DIRS}")
+message(STATUS "  libs         : ${PC_WAYLAND_CLIENT_LIBRARIES}")
+message(STATUS "wayland-server : ${WAYLAND_SERVER_FOUND_TEXT}")
+message(STATUS "  version      : ${PC_WAYLAND_SERVER_VERSION}")
+message(STATUS "  cflags       : ${PC_WAYLAND_SERVER_CFLAGS}")
+message(STATUS "  cflags other : ${PC_WAYLAND_SERVER_CFLAGS_OTHER}")
+message(STATUS "  include dirs : ${PC_WAYLAND_SERVER_INCLUDE_DIRS}")
+message(STATUS "  lib dirs     : ${PC_WAYLAND_SERVER_LIBRARY_DIRS}")
+message(STATUS "  libs         : ${PC_WAYLAND_SERVER_LIBRARIES}")
+message(STATUS "wayland-cursor : ${WAYLAND_CURSOR_FOUND}")
+message(STATUS "  version      : ${PC_WAYLAND_CURSOR_VERSION}")
+message(STATUS "  cflags       : ${PC_WAYLAND_CURSOR_CFLAGS}")
+message(STATUS "  cflags other : ${PC_WAYLAND_CURSOR_CFLAGS_OTHER}")
+message(STATUS "  include dirs : ${PC_WAYLAND_CURSOR_INCLUDE_DIRS}")
+message(STATUS "  lib dirs     : ${PC_WAYLAND_CURSOR_LIBRARY_DIRS}")
+message(STATUS "  libs         : ${PC_WAYLAND_CURSOR_LIBRARIES}")
 
 # find include paths
-find_path(WAYLAND_CLIENT_INCLUDE_DIR wayland-client.h ${PKG_WAYLAND_CLIENT_INCLUDE_DIRS})
-find_path(WAYLAND_SERVER_INCLUDE_DIR wayland-server.h ${PKG_WAYLAND_SERVER_INCLUDE_DIRS})
-find_path(WAYLAND_CURSOR_INCLUDE_DIR wayland-cursor.h ${PKG_WAYLAND_CLIENT_INCLUDE_DIRS})
-find_path(WAYLAND_EGL_INCLUDE_DIR wayland-egl.h ${PKG_WAYLAND_SERVER_INCLUDE_DIRS})
+find_path(WAYLAND_CLIENT_INCLUDE_DIR wayland-client.h ${PC_WAYLAND_CLIENT_INCLUDE_DIRS})
+find_path(WAYLAND_SERVER_INCLUDE_DIR wayland-server.h ${PC_WAYLAND_SERVER_INCLUDE_DIRS})
+find_path(WAYLAND_CURSOR_INCLUDE_DIR wayland-cursor.h ${PC_WAYLAND_CURSOR_INCLUDE_DIRS})
 
 # find libs
-find_library(WAYLAND_CLIENT_LIBRARIES NAMES wayland-client PATHS ${PKG_WAYLAND_CLIENT_LIBRARY_DIRS})
-find_library(WAYLAND_SERVER_LIBRARIES NAMES wayland-server PATHS ${PKG_WAYLAND_SERVER_LIBRARY_DIRS})
-find_library(WAYLAND_CURSOR_LIBRARIES NAMES wayland-cursor PATHS ${PKG_WAYLAND_CURSOR_LIBRARY_DIRS})
-find_library(WAYLAND_EGL_LIBRARIES NAMES wayland-egl PATHS ${PKG_WAYLAND_EGL_LIBRARY_DIRS})
+find_library(WAYLAND_CLIENT_LIBRARIES NAMES wayland-client PATHS ${PC_WAYLAND_CLIENT_LIBRARY_DIRS})
+find_library(WAYLAND_SERVER_LIBRARIES NAMES wayland-server PATHS ${PC_WAYLAND_SERVER_LIBRARY_DIRS})
+find_library(WAYLAND_CURSOR_LIBRARIES NAMES wayland-cursor PATHS ${PC_WAYLAND_CURSOR_LIBRARY_DIRS})
 
 # set _FOUND vars
 if (NOT ${WAYLAND_CLIENT_INCLUDE_DIR} STREQUAL "" AND NOT ${WAYLAND_CLIENT_LIBRARIES} STREQUAL "")
     set(WAYLAND_CLIENT_FOUND TRUE)
 endif()
 if (NOT ${WAYLAND_SERVER_INCLUDE_DIR} STREQUAL "" AND NOT ${WAYLAND_SERVER_LIBRARIES} STREQUAL "")
-set(WAYLAND_SERVER_FOUND TRUE)
+    set(WAYLAND_SERVER_FOUND TRUE)
 endif()
 if (NOT ${WAYLAND_CURSOR_INCLUDE_DIR} STREQUAL "" AND NOT ${WAYLAND_CURSOR_LIBRARIES} STREQUAL "")
-set(WAYLAND_CURSOR_FOUND TRUE)
-endif()
-if (NOT ${WAYLAND_EGL_INCLUDE_DIR} STREQUAL "" AND NOT ${WAYLAND_EGL_LIBRARIES} STREQUAL "")
-set(WAYLAND_EGL_FOUND TRUE)
+    set(WAYLAND_CURSOR_FOUND TRUE)
 endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(WAYLAND DEFAULT_MSG
         WAYLAND_CLIENT_INCLUDE_DIR WAYLAND_CLIENT_LIBRARIES
         WAYLAND_SERVER_INCLUDE_DIR WAYLAND_SERVER_LIBRARIES
-        WAYLAND_CURSOR_INCLUDE_DIR WAYLAND_CURSOR_LIBRARIES
-        WAYLAND_EGL_INCLUDE_DIR WAYLAND_EGL_LIBRARIES)
+        WAYLAND_CURSOR_INCLUDE_DIR WAYLAND_CURSOR_LIBRARIES)
+
+if (WAYLAND_FOUND)
+    if (WAYLAND_REQUIRED_VERSION)
+        if (NOT "${WAYLAND_REQUIRED_VERSION}" STREQUAL "${PC_WAYLAND_CLIENT_VERSION}")
+            message(WARNING "Incorrect version, please install wayland-${WAYLAND_REQUIRED_VERSION}")
+            unset(WAYLAND_CLIENT_FOUND)
+            unset(WAYLAND_SERVER_FOUND)
+            unset(WAYLAND_CURSOR_FOUND)
+            unset(WAYLAND_FOUND)
+        endif()
+    else()
+        message(STATUS "Found wayland")
+    endif()
+else()
+    message(WARNING "Could not find wayland, please install: sudo apt-get install libwayland-dev")
+endif()
+
 mark_as_advanced(
         WAYLAND_CLIENT_INCLUDE_DIR WAYLAND_CLIENT_LIBRARIES
         WAYLAND_SERVER_INCLUDE_DIR WAYLAND_SERVER_LIBRARIES
-        WAYLAND_CURSOR_INCLUDE_DIR WAYLAND_CURSOR_LIBRARIES
-        WAYLAND_EGL_INCLUDE_DIR WAYLAND_EGL_LIBRARIES)
+        WAYLAND_CURSOR_INCLUDE_DIR WAYLAND_CURSOR_LIBRARIES)

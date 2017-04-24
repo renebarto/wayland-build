@@ -1,12 +1,11 @@
 project(libevdev)
 
-find_package(LibEvdev QUIET)
-
-set(LIBEVDEV_FOUND false)
-
-set(LIBEVDEV_MODULE ${PROJECT_NAME})
 set(LIBEVDEV_VERSION 1.5.6)
-set(LIBEVDEV_BASE ${LIBEVDEV_MODULE}-${LIBEVDEV_VERSION})
+set(LIBEVDEV_REQUIRED_VERSION ${LIBEVDEV_VERSION})
+set(LIBEVDEV_NAME ${PROJECT_NAME})
+set(LIBEVDEV_BASE ${LIBEVDEV_NAME}-${LIBEVDEV_VERSION})
+
+find_package(LibEvdev QUIET)
 
 if (NOT LIBEVDEV_FOUND)
     set(LIBEVDEV_EXTENSION tar.xz)
@@ -21,8 +20,9 @@ if (NOT LIBEVDEV_FOUND)
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${LIBEVDEV_SITE}
         ${LIBEVDEV_FULLNAME}
-        ${LIBEVDEV_MODULE}
         ${LIBEVDEV_BASE}
+        ${LIBEVDEV_BASE}
+        ""
         ""
         "./configure --prefix=${CMAKE_INSTALL_PREFIX}")
 else()

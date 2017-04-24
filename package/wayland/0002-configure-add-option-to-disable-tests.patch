@@ -19,10 +19,10 @@ https://lists.freedesktop.org/archives/wayland-devel/2017-March/033359.html
  configure.ac | 8 ++++++++
  2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile.am b/Makefile.am
+diff --git Makefile.am Makefile.am.orig
 index d0c8bd3..9c2541d 100644
---- a/Makefile.am
-+++ b/Makefile.am
+--- Makefile.am
++++ Makefile.am.orig
 @@ -143,7 +143,7 @@ libwayland_cursor_la_CFLAGS =			\
  	-I$(top_srcdir)/src			\
  	-DICONDIR=\"$(ICONDIR)\"
@@ -40,10 +40,10 @@ index d0c8bd3..9c2541d 100644
  
  EXTRA_DIST += tests/scanner-test.sh			\
  	tests/data/example.xml				\
-diff --git a/configure.ac b/configure.ac
+diff --git configure.ac configure.ac.orig
 index b583bef..96a5575 100644
---- a/configure.ac
-+++ b/configure.ac
+--- configure.ac
++++ configure.ac.orig
 @@ -87,10 +87,18 @@ AC_ARG_ENABLE([dtd-validation],
  	      [],
  	      [enable_dtd_validation=yes])

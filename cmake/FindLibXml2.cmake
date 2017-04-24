@@ -32,48 +32,48 @@
 # use pkg-config to get the directories and then use these values
 # in the find_path() and find_library() calls
 find_package(PkgConfig QUIET)
-PKG_CHECK_MODULES(PC_LIBXML QUIET libxml-2.0)
+PKG_CHECK_MODULES(PC_LIBXML2 QUIET libxml-2.0)
 
-if(PC_LIBXML_FOUND)
+if(PC_LIBXML2_FOUND)
     set(FOUND_TEXT "Found")
 else()
     set(FOUND_TEXT "Not found")
 endif()
 
 message(STATUS "libxml2        : ${FOUND_TEXT}")
-message(STATUS "  version      : ${PC_LIBXML_VERSION}")
-message(STATUS "  cflags       : ${PC_LIBXML_CFLAGS}")
-message(STATUS "  cflags other : ${PC_LIBXML_CFLAGS_OTHER}")
-message(STATUS "  include dirs : ${PC_LIBXML_INCLUDE_DIRS}")
-message(STATUS "  lib dirs     : ${PC_LIBXML_LIBRARY_DIRS}")
-message(STATUS "  libs         : ${PC_LIBXML_LIBRARIES}")
+message(STATUS "  version      : ${PC_LIBXML2_VERSION}")
+message(STATUS "  cflags       : ${PC_LIBXML2_CFLAGS}")
+message(STATUS "  cflags other : ${PC_LIBXML2_CFLAGS_OTHER}")
+message(STATUS "  include dirs : ${PC_LIBXML2_INCLUDE_DIRS}")
+message(STATUS "  lib dirs     : ${PC_LIBXML2_LIBRARY_DIRS}")
+message(STATUS "  libs         : ${PC_LIBXML2_LIBRARIES}")
 
-set(LIBXML2_DEFINITIONS ${PC_LIBXML_CFLAGS_OTHER})
+set(LIBXML2_DEFINITIONS ${PC_LIBXML2_CFLAGS_OTHER})
 
 find_path(LIBXML2_INCLUDE_DIR NAMES libxml/xpath.h
    HINTS
-   ${PC_LIBXML_INCLUDEDIR}
-   ${PC_LIBXML_INCLUDE_DIRS}
+   ${PC_LIBXML2_INCLUDEDIR}
+   ${PC_LIBXML2_INCLUDE_DIRS}
    PATH_SUFFIXES libxml2
    )
 
 find_library(LIBXML2_LIBRARIES NAMES xml2 libxml2
    HINTS
-   ${PC_LIBXML_LIBDIR}
-   ${PC_LIBXML_LIBRARY_DIRS}
+   ${PC_LIBXML2_LIBDIR}
+   ${PC_LIBXML2_LIBRARY_DIRS}
    )
 
 find_program(LIBXML2_XMLLINT_EXECUTABLE xmllint)
 # for backwards compat. with KDE 4.0.x:
 set(XMLLINT_EXECUTABLE "${LIBXML2_XMLLINT_EXECUTABLE}")
 
-if(PC_LIBXML_VERSION)
-    set(LIBXML2_VERSION_STRING ${PC_LIBXML_VERSION})
+if(PC_LIBXML2_VERSION)
+    set(LIBXML2_VERSION_STRING ${PC_LIBXML2_VERSION})
 elseif(LIBXML2_INCLUDE_DIR AND EXISTS "${LIBXML2_INCLUDE_DIR}/libxml/xmlversion.h")
     file(STRINGS "${LIBXML2_INCLUDE_DIR}/libxml/xmlversion.h" libxml2_version_str
-         REGEX "^#define[\t ]+LIBXML_DOTTED_VERSION[\t ]+\".*\"")
+         REGEX "^#define[\t ]+LIBXML2_DOTTED_VERSION[\t ]+\".*\"")
 
-    string(REGEX REPLACE "^#define[\t ]+LIBXML_DOTTED_VERSION[\t ]+\"([^\"]*)\".*" "\\1"
+    string(REGEX REPLACE "^#define[\t ]+LIBXML2_DOTTED_VERSION[\t ]+\"([^\"]*)\".*" "\\1"
            LIBXML2_VERSION_STRING "${libxml2_version_str}")
     unset(libxml2_version_str)
 endif()
@@ -86,7 +86,14 @@ FIND_PACKAGE_HANDLE_STANDARD_ARGS(LibXml2
                                   VERSION_VAR LIBXML2_VERSION_STRING)
 
 if (LIBXML2_FOUND)
-    message(STATUS "Found libxml2")
+    if (LIBXML2_REQUIRED_VERSION)
+        if (NOT "${LIBXML2_REQUIRED_VERSION}" STREQUAL "${PC_LIBXML2_VERSION}")
+            message(WARNING "Incorrect version, please install libxml2-${LIBXML2_REQUIRED_VERSION}")
+            unset(LIBXML2_FOUND)
+        endif()
+    else()
+        message(STATUS "Found libxml2")
+    endif()
 else()
     message(WARNING "Could not find libxml2, please install: sudo apt-get install libxml2-dev")
 endif()

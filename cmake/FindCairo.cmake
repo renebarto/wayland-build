@@ -3,7 +3,7 @@
 #
 #  CAIRO_FOUND - system has Cairo
 #  CAIRO_INCLUDE_DIR - the Cairo include directories
-#  CAIRO_LIBRARIES - link these to use Cairo
+#  CAIRO_LIBRARY - link these to use Cairo
 #
 # Copyright (C) 2012 Raphael Kubo da Costa <rakuco@webkit.org>
 #
@@ -31,13 +31,27 @@
 find_package(PkgConfig)
 pkg_check_modules(PC_CAIRO cairo)
 
+if(PC_CAIRO_FOUND)
+    set(FOUND_TEXT "Found")
+else()
+    set(FOUND_TEXT "Not found")
+endif()
+
+message(STATUS "cairo          : ${FOUND_TEXT}")
+message(STATUS "  version      : ${PC_CAIRO_VERSION}")
+message(STATUS "  cflags       : ${PC_CAIRO_CFLAGS}")
+message(STATUS "  cflags other : ${PC_CAIRO_CFLAGS_OTHER}")
+message(STATUS "  include dirs : ${PC_CAIRO_INCLUDE_DIRS}")
+message(STATUS "  lib dirs     : ${PC_CAIRO_LIBRARY_DIRS}")
+message(STATUS "  libs         : ${PC_CAIRO_LIBRARIES}")
+
 find_path(CAIRO_INCLUDE_DIR
         NAMES cairo.h
         HINTS ${PC_CAIRO_INCLUDEDIR}
         ${PC_CAIRO_INCLUDE_DIR}
         PATH_SUFFIXES cairo        )
 
-find_library(CAIRO_LIBRARIES
+find_library(CAIRO_LIBRARY
         NAMES cairo
         HINTS ${PC_CAIRO_LIBDIR}
         ${PC_CAIRO_LIBRARY_DIRS}        )
@@ -58,24 +72,22 @@ if(CAIRO_INCLUDE_DIR)
         set(CAIRO_VERSION "${CAIRO_VERSION_MAJOR}.${CAIRO_VERSION_MINOR}.${CAIRO_VERSION_MICRO}")
     endif()
     set(VERSION_OK TRUE)
-else()
-    message(SEND_ERROR "Could not find cairo, please install: sudo apt-get install libcairo2-dev")
-endif()
-
-if(Cairo_FIND_VERSION)
-    if(Cairo_FIND_VERSION_EXACT)
-        if("${Cairo_FIND_VERSION}" VERSION_EQUAL "${CAIRO_VERSION}")
-        else()
-            set(VERSION_OK FALSE)
-        endif()
-    else()
-        if("${Cairo_FIND_VERSION}" VERSION_GREATER "${CAIRO_VERSION}")
-            set(VERSION_OK FALSE)
-        endif()
-    endif()
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(Cairo DEFAULT_MSG CAIRO_INCLUDE_DIR CAIRO_LIBRARIES VERSION_OK)
+find_package_handle_standard_args(Cairo DEFAULT_MSG CAIRO_INCLUDE_DIR CAIRO_LIBRARY)
 
-mark_as_advanced(CAIRO_INCLUDE_DIR CAIRO_LIBRARIES)
+if (CAIRO_FOUND)
+    if(CAIRO_REQUIRED_VERSION)
+        if (NOT "${CAIRO_REQUIRED_VERSION}" STREQUAL "${PC_CAIRO_VERSION}")
+            message(WARNING "Incorrect version, please install cairo-${CAIRO_REQUIRED_VERSION}")
+            unset(CAIRO_FOUND)
+        endif()
+    else()
+        message(STATUS "Found cairo")
+    endif()
+else()
+    message(WARNING "Could not find cairo, please install: sudo apt-get install libcairo2-dev")
+endif()
+
+mark_as_advanced(CAIRO_INCLUDE_DIR CAIRO_LIBRARY)

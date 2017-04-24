@@ -38,7 +38,7 @@ set_package_properties(LibInput PROPERTIES
     DESCRIPTION "Library to handle input devices")
 
 find_package(PkgConfig)
-pkg_check_modules(PC_INPUT QUIET libinput)
+pkg_check_modules(PC_LIBINPUT QUIET libinput)
 
 if(PC_LIBINPUT_FOUND)
     set(FOUND_TEXT "Found")
@@ -46,7 +46,7 @@ else()
     set(FOUND_TEXT "Not found")
 endif()
 
-message(STATUS "libinput         : ${FOUND_TEXT}")
+message(STATUS "libinput       : ${FOUND_TEXT}")
 message(STATUS "  version      : ${PC_LIBINPUT_VERSION}")
 message(STATUS "  cflags       : ${PC_LIBINPUT_CFLAGS}")
 message(STATUS "  cflags other : ${PC_LIBINPUT_CFLAGS_OTHER}")
@@ -54,11 +54,11 @@ message(STATUS "  include dirs : ${PC_LIBINPUT_INCLUDE_DIRS}")
 message(STATUS "  lib dirs     : ${PC_LIBINPUT_LIBRARY_DIRS}")
 message(STATUS "  libs         : ${PC_LIBINPUT_LIBRARIES}")
 
-find_library(LIBINPUT_LIBRARIES NAMES input HINTS ${PC_INPUT_LIBRARY_DIRS})
-find_path(LIBINPUT_INCLUDE_DIRS libinput.h HINTS ${PC_INPUT_INCLUDE_DIRS})
+find_library(LIBINPUT_LIBRARIES NAMES input HINTS ${PC_LIBINPUT_LIBRARY_DIRS})
+find_path(LIBINPUT_INCLUDE_DIRS libinput.h HINTS ${PC_LIBINPUT_INCLUDE_DIRS})
 
-set(LIBINPUT_VERSION ${PC_INPUT_VERSION})
-string(REPLACE "." ";" VERSION_LIST "${PC_INPUT_VERSION}")
+set(LIBINPUT_VERSION ${PC_LIBINPUT_VERSION})
+string(REPLACE "." ";" VERSION_LIST "${PC_LIBINPUT_VERSION}")
 
 LIST(LENGTH VERSION_LIST n)
 if (n EQUAL 3)
@@ -75,7 +75,7 @@ endif ()
 
 # This is compatible with libinput-version.h that exists in upstream
 # but isn't in distribution (probably forgotten)
-set(LIBINPUT_DEFINITIONS ${PC_INPUT_CFLAGS_OTHER}
+set(LIBINPUT_DEFINITIONS ${PC_LIBINPUT_CFLAGS_OTHER}
     -DLIBINPUT_VERSION=\"${LIBINPUT_VERSION}\"
     -DLIBINPUT_VERSION_MAJOR=${LIBINPUT_VERSION_MAJOR}
     -DLIBINPUT_VERSION_MINOR=${LIBINPUT_VERSION_MINOR}
@@ -85,7 +85,14 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(LIBINPUT DEFAULT_MSG LIBINPUT_INCLUDE_DIRS LIBINPUT_LIBRARIES)
 
 if (LIBINPUT_FOUND)
-    message(STATUS "Found libinput")
+    if(LIBINPUT_REQUIRED_VERSION)
+        if (NOT "${LIBINPUT_REQUIRED_VERSION}" STREQUAL "${PC_LIBINPUT_VERSION}")
+            message(WARNING "Incorrect version, please install libinput-${LIBINPUT_REQUIRED_VERSION}")
+            unset(LIBINPUT_FOUND)
+        endif()
+    else()
+        message(STATUS "Found libinput")
+    endif()
 else()
     message(WARNING "Could not find libinput, please install: sudo apt-get install libinput-dev")
 endif()

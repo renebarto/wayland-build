@@ -1,13 +1,11 @@
 project(expat)
 
-include(utilities)
-find_package(EXPAT QUIET)
-
-set(EXPAT_FOUND FALSE)
-
-set(EXPAT_MODULE ${PROJECT_NAME})
 set(EXPAT_VERSION 2.2.0)
-set(EXPAT_BASE ${EXPAT_MODULE}-${EXPAT_VERSION})
+set(EXPAT_REQUIRED_VERSION ${EXPAT_VERSION})
+set(EXPAT_NAME ${PROJECT_NAME})
+set(EXPAT_BASE ${EXPAT_NAME}-${EXPAT_VERSION})
+
+find_package(EXPAT QUIET)
 
 if (NOT EXPAT_FOUND)
     set(EXPAT_EXTENSION tar.bz2)
@@ -22,8 +20,9 @@ if (NOT EXPAT_FOUND)
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${EXPAT_SITE}
         ${EXPAT_FULLNAME}
-        ${EXPAT_MODULE}
         ${EXPAT_BASE}
+        ${EXPAT_BASE}
+        ""
         ""
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static")
     add_auxiliary_target(${EXPAT_BASE} aux)

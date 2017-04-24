@@ -6,13 +6,12 @@
  toolexeclibdir=@toolexeclibdir@
 -includedir=${libdir}/@PACKAGE_NAME@-@PACKAGE_VERSION@/include
 +includedir=@includedir@
- 
+
  Name: @PACKAGE_NAME@
  Description: Library supporting Foreign Function Interfaces
  Version: @PACKAGE_VERSION@
  Libs: -L${toolexeclibdir} -lffi
--Cflags: -I${includedir}
-+Cflags:
+ Cflags: -I${includedir}
 --- include/Makefile.in.orig	2014-11-12 12:59:58.000000000 +0100
 +++ include/Makefile.in	2017-04-19 23:45:30.332350000 +0200
 @@ -314,7 +314,7 @@

@@ -1,5 +1,6 @@
 include(package)
 
+add_subdirectory(zlib)
 add_subdirectory(libffi)
 add_subdirectory(expat)
 add_subdirectory(libxml2)
@@ -8,4 +9,22 @@ add_subdirectory(wayland-protocols)
 add_subdirectory(libevdev)
 add_subdirectory(mtdev)
 add_subdirectory(libinput)
-add_subdirectory(weston)
+add_subdirectory(libxkbcommon)
+add_subdirectory(pixman)
+add_subdirectory(libpng)
+add_subdirectory(freetype)
+add_subdirectory(fontconfig)
+add_subdirectory(x11proto-dri2)
+add_subdirectory(x11proto-dri3)
+add_subdirectory(x11proto-present)
+add_subdirectory(x11proto-xinerama)
+add_subdirectory(libxau)
+#add_subdirectory(cairo)
+#add_subdirectory(libjpegturbo)
+#add_subdirectory(mesa)
+#add_subdirectory(libxcb-composite)
+
+#add_subdirectory(weston)
+
+# libgl1-mesa-dev libglew-dev libglu1-mesa-dev libx11-dev libx11-xcb-dev libxau-dev libxcb-composite0-dev libxcb-dri2-0-dev libxcb-dri3-dev libxcb-glx0-dev libxcb-present-dev libxcb-randr0-dev
+# libxcb-render0-dev libxcb-shape0-dev libxcb-shm0-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb1-dev libxcursor-dev libxdamage-dev libxext-dev libxfixes-dev libxrender-dev libxxf86vm-dev mesa-common-dev

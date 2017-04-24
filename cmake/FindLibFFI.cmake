@@ -29,9 +29,6 @@ find_path(LIBFFI_INCLUDE_DIRS ffi.h
 find_library(LIBFFI_LIBRARY NAMES ffi
         HINTS ${PC_LIBFFI_LIBDIR} ${PC_LIBFFI_LIBRARY_DIRS} )
 
-message(STATUS "  include dirs : ${LIBFFI_INCLUDE_DIRS}")
-message(STATUS "  lib          : ${LIBFFI_LIBRARY}")
-
 set(LIBFFI_LIBRARIES ${LIBFFI_LIBRARY} )
 set(LIBFFI_INCLUDE_DIR ${LIBFFI_INCLUDE_DIRS} )
 
@@ -42,7 +39,14 @@ find_package_handle_standard_args(LibFFI DEFAULT_MSG
         LIBFFI_LIBRARY LIBFFI_INCLUDE_DIR)
 
 if (LIBFFI_FOUND)
-    message(STATUS "Found libffi")
+    if(LIBFFI_REQUIRED_VERSION)
+        if (NOT "${LIBFFI_REQUIRED_VERSION}" STREQUAL "${PC_LIBFFI_VERSION}")
+            message(WARNING "Incorrect version, please install libffi-${LIBFFI_REQUIRED_VERSION}")
+            unset(LIBFFI_FOUND)
+        endif()
+    else()
+        message(STATUS "Found libffi")
+    endif()
 else()
     message(WARNING "Could not find libffi, please install: sudo apt-get install libffi-dev")
 endif()

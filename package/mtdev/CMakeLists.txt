@@ -1,12 +1,11 @@
 project(mtdev)
 
-#find_package(LibEvdev QUIET)
-
-set(MTDEV_FOUND false)
-
-set(MTDEV_MODULE ${PROJECT_NAME})
 set(MTDEV_VERSION 1.1.5)
-set(MTDEV_BASE ${MTDEV_MODULE}-${MTDEV_VERSION})
+set(MTDEV_REQUIRED_VERSION ${MTDEV_VERSION})
+set(MTDEV_NAME ${PROJECT_NAME})
+set(MTDEV_BASE ${MTDEV_NAME}-${MTDEV_VERSION})
+
+find_package(Mtdev QUIET)
 
 if (NOT MTDEV_FOUND)
     set(MTDEV_EXTENSION tar.bz2)
@@ -21,8 +20,9 @@ if (NOT MTDEV_FOUND)
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${MTDEV_SITE}
         ${MTDEV_FULLNAME}
-        ${MTDEV_MODULE}
         ${MTDEV_BASE}
+        ${MTDEV_BASE}
+        ""
         ""
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static")
 else()
