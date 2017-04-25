@@ -5,28 +5,26 @@ set(WESTON_REQUIRED_VERSION ${WESTON_VERSION})
 set(WESTON_NAME ${PROJECT_NAME})
 set(WESTON_BASE ${WESTON_NAME}-${WESTON_VERSION})
 
-#find_package(Wayland QUIET)
-
-set(WESTON_FOUND FALSE)
+find_package(Weston QUIET)
 
 if (NOT WESTON_FOUND)
     set(WESTON_EXTENSION tar.xz)
     set(WESTON_FULLNAME ${WESTON_BASE}.${WESTON_EXTENSION})
     set(WESTON_SITE http://wayland.freedesktop.org/releases)
     set(WESTON_STAMP_DIR ${PACKAGE_STAMP_DIR}/${WESTON_BASE})
-#    setup_package_automake(
-#        ${PACKAGE_DOWNLOAD_DIR}
-#        ${PACKAGE_BUILD_DIR}
-#        ${PACKAGE_STAGING_DIR}
-#        ${WESTON_STAMP_DIR}
-#        ${CMAKE_CURRENT_SOURCE_DIR}
-#        ${WESTON_SITE}
-#        ${WESTON_FULLNAME}
-#        ${WESTON_BASE}
-#        ${WESTON_BASE}
-#        ""
-#        ""
-#        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --enable-demo-clients-install")
+    setup_package_automake(
+        ${PACKAGE_DOWNLOAD_DIR}
+        ${PACKAGE_BUILD_DIR}
+        ${PACKAGE_STAGING_DIR}
+        ${WESTON_STAMP_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${WESTON_SITE}
+        ${WESTON_FULLNAME}
+        ${WESTON_BASE}
+        ${WESTON_BASE}
+        ""
+        ""
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --enable-demo-clients-install")
     #    add_custom_target(install_doc
     #        DEPENDS ${WESTON_BASE}_COMPLETE
     #        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/share/doc/${WESTON_BASE}
@@ -38,8 +36,10 @@ if (NOT WESTON_FOUND)
     #            ${CMAKE_INSTALL_PREFIX}/share/doc/${WESTON_BASE}
     #        COMMENT "Copy html"
     #        VERBATIM)
-    add_custom_target(${WESTON_BASE})
-    add_dependencies(${WESTON_BASE} wayland-1.13.0 wayland-protocols-1.7 libevdev-1.5.6 libxkbcommon-0.7.1)
+
+    add_dependencies(${WESTON_BASE}
+        wayland-1.13.0 wayland-protocols-1.7 libevdev-1.5.6 libxkbcommon-0.7.1
+        cairo-1.14.8 libjpeg-turbo-1.5.1 mesa-17.0.4 mtdev-1.1.5 libXcursor-1.1.14)
 else()
     add_custom_target(${WESTON_BASE})
 endif()

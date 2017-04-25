@@ -15,7 +15,7 @@ else()
     set(FOUND_TEXT "Not found")
 endif()
 
-message(STATUS "x11proto-xf86dri  : ${FOUND_TEXT}")
+message(STATUS "x11proto-xf86dri: ${FOUND_TEXT}")
 message(STATUS "  version      : ${PC_X11PROTO_XF86DRI_VERSION}")
 message(STATUS "  cflags       : ${PC_X11PROTO_XF86DRI_CFLAGS}")
 message(STATUS "  cflags other : ${PC_X11PROTO_XF86DRI_CFLAGS_OTHER}")
@@ -23,7 +23,7 @@ message(STATUS "  include dirs : ${PC_X11PROTO_XF86DRI_INCLUDE_DIRS}")
 message(STATUS "  lib dirs     : ${PC_X11PROTO_XF86DRI_LIBRARY_DIRS}")
 message(STATUS "  libs         : ${PC_X11PROTO_XF86DRI_LIBRARIES}")
 
-find_path(X11PROTO_XF86DRI_INCLUDE_DIRS X11/extensions/xf86driproto.h
+find_path(X11PROTO_XF86DRI_INCLUDE_DIRS X11/dri/xf86driproto.h
         HINTS ${PC_X11PROTO_XF86DRI_INCLUDEDIR} ${PC_X11PROTO_XF86DRI_INCLUDE_DIRS})
 
 set(X11PROTO_XF86DRI_INCLUDE_DIR ${X11PROTO_XF86DRI_INCLUDE_DIRS} )

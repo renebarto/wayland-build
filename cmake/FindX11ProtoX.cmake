@@ -23,7 +23,7 @@ message(STATUS "  include dirs : ${PC_X11PROTO_X_INCLUDE_DIRS}")
 message(STATUS "  lib dirs     : ${PC_X11PROTO_X_LIBRARY_DIRS}")
 message(STATUS "  libs         : ${PC_X11PROTO_X_LIBRARIES}")
 
-find_path(X11PROTO_X_INCLUDE_DIRS X11/extensions/Xproto.h
+find_path(X11PROTO_X_INCLUDE_DIRS X11/Xproto.h
         HINTS ${PC_X11PROTO_X_INCLUDEDIR} ${PC_X11PROTO_X_INCLUDE_DIRS})
 
 set(X11PROTO_X_INCLUDE_DIR ${X11PROTO_X_INCLUDE_DIRS} )

@@ -23,7 +23,7 @@ message(STATUS "  include dirs : ${PC_X11PROTO_GL_INCLUDE_DIRS}")
 message(STATUS "  lib dirs     : ${PC_X11PROTO_GL_LIBRARY_DIRS}")
 message(STATUS "  libs         : ${PC_X11PROTO_GL_LIBRARIES}")
 
-find_path(X11PROTO_GL_INCLUDE_DIRS X11/extensions/glcore.h X11/extensions/glxproto.h
+find_path(X11PROTO_GL_INCLUDE_DIRS GL/internal/glcore.h GL/glxproto.h
         HINTS ${PC_X11PROTO_GL_INCLUDEDIR} ${PC_X11PROTO_GL_INCLUDE_DIRS})
 
 set(X11PROTO_GL_INCLUDE_DIR ${X11PROTO_GL_INCLUDE_DIRS} )

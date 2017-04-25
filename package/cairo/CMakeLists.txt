@@ -30,15 +30,16 @@ if (NOT CAIRO_FOUND)
             --disable-directfb \
             --enable-tee \
             --enable-ft \
-            --disable-xlib --disable-xcb --without-x \
+            --disable-xlib --enable-xcb --without-x \
             --disable-xlib-xrender \
             --disable-gl --enable-glesv2 \
-            --enable-vg \
+            --disable-vg \
             --enable-ps \
             --enable-pdf \
             --enable-png \
             --enable-svg \
-            --enable-xml")
+            --enable-xml \
+            --disable-drm")
     add_dependencies(${CAIRO_BASE} libpng-1.6.29 pixman-0.34.0 fontconfig-2.12.1)
 else()
     add_custom_target(${CAIRO_BASE})

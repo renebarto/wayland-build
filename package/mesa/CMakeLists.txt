@@ -7,6 +7,14 @@ set(MESA_BASE ${MESA_NAME}-${MESA_VERSION})
 
 find_package(Mesa QUIET)
 
+if (MESA_GL_FOUND AND MESA_GLESV1_FOUND AND MESA_GLESV2_FOUND AND
+    MESA_DRI_FOUND AND MESA_GBM_FOUND AND
+    MESA_EGL_FOUND AND MESA_WAYLAND_EGL_FOUND)
+    set(MESA_FOUND TRUE)
+else()
+    set(MESA_FOUND FALSE)
+endif()
+
 if (NOT MESA_FOUND)
     set(MESA_EXTENSION tar.xz)
     set(MESA_FULLNAME ${MESA_BASE}.${MESA_EXTENSION})
@@ -24,11 +32,11 @@ if (NOT MESA_FOUND)
         ${MESA_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX}
-            --with-gallium-drivers=swrast,r600,svga
-            --enable-gles2
-            --with-egl-platforms=x11,wayland,drm
-            --enable-gbm
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} \
+            --with-gallium-drivers=swrast,r600,svga \
+            --enable-gles2 \
+            --with-egl-platforms=x11,wayland,drm \
+            --enable-gbm \
             --enable-shared-glapi")
 else()
     add_custom_target(${MESA_BASE})

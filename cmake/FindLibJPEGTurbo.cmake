@@ -6,7 +6,7 @@
 #  LIBJPEGTURBO_DEFINITIONS - Compiler switches required for using LibJPEGTurbo
 
 find_package(PkgConfig)
-pkg_check_modules(PC_LIBJPEGTURBO QUIET libjpeg)
+pkg_check_modules(PC_LIBJPEGTURBO QUIET libturbojpeg)
 set(LIBJPEGTURBO_DEFINITIONS ${PC_LIBJPEGTURBO_CFLAGS_OTHER})
 
 if(PC_LIBJPEGTURBO_FOUND)
