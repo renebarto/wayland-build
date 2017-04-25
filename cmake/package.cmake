@@ -26,6 +26,8 @@ function(setup_download_command name)
     get_property(DOWNLOAD_DIR TARGET ${name}      PROPERTY _PKG_DOWNLOAD_DIR)
     get_property(SITE TARGET ${name}              PROPERTY _PKG_SITE)
     get_property(FULLNAME TARGET ${name}          PROPERTY _PKG_FULLNAME)
+    get_property(BUILD_DIR TARGET ${name}         PROPERTY _PKG_BUILD_DIR)
+    get_property(STAGING_DIR TARGET ${name}       PROPERTY _PKG_STAGING_DIR)
 
     mkdir(${STAMP_DIR})
     mkdir(${DOWNLOAD_DIR})
