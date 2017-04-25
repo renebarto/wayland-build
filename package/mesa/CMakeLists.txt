@@ -38,6 +38,13 @@ if (NOT MESA_FOUND)
             --with-egl-platforms=x11,wayland,drm \
             --enable-gbm \
             --enable-shared-glapi")
+    add_dependencies(${MESA_BASE}
+        libXcursor-1.1.14
+        libXrender-0.9.10
+        libX11-1.6.4
+        libXext-1.3.3
+        libXfixes-5.0.3
+        libXdamage-1.1.4)
 else()
     add_custom_target(${MESA_BASE})
 endif()

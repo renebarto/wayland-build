@@ -26,6 +26,8 @@ if (NOT LIBXRENDER_FOUND)
         ""
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} --sysconfdir=${CMAKE_SYSROOT}/etc \
             --localstatedir=${CMAKE_SYSROOT}/var --disable-static")
+    add_dependencies(${LIBXRENDER_BASE}
+        libX11-1.6.4)
 else()
     add_custom_target(${LIBXRENDER_BASE})
 endif()

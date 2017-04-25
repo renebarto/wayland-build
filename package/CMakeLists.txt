@@ -32,9 +32,9 @@ add_subdirectory(libevdev)
 add_subdirectory(pixman)
 add_subdirectory(freetype)
 add_subdirectory(libxml2)
+add_subdirectory(expat)
 add_subdirectory(fontconfig)
 add_subdirectory(libffi)
-add_subdirectory(expat)
 add_subdirectory(wayland)
 add_subdirectory(wayland-protocols)
 add_subdirectory(mtdev)
@@ -45,15 +45,18 @@ add_subdirectory(libxcb)
 add_subdirectory(libinput)
 add_subdirectory(libxkbcommon)
 add_subdirectory(libjpegturbo)
-add_subdirectory(mesa)
-add_subdirectory(cairo)
+add_subdirectory(libx11)
+add_subdirectory(libxfixes)
+add_subdirectory(libxdamage)
+add_subdirectory(libxext)
 add_subdirectory(libxrender)
 add_subdirectory(libxcursor)
+add_subdirectory(mesa)
+add_subdirectory(cairo)
 add_subdirectory(Linux-PAM)
 add_subdirectory(weston)
 
-# libglew-dev libglu1-mesa-dev libx11-dev libx11-xcb-dev libxcursor-dev libxdamage-dev libxext-dev libxfixes-dev
-# libxrender-dev libxxf86vm-dev
+# libglew-dev libglu1-mesa-dev libxxf86vm-dev
 
 # weston 1.12.0 ->
 #     Cairo-1.14.8                              OK
@@ -84,15 +87,28 @@ add_subdirectory(weston)
 # Xorg libraries ->                             OK
 #     Fontconfig-2.12.1                         OK
 #     libxcb-1.12                               OK
+#     libX11-1.6.4                              OK
+#     libXext-1.3.3                             OK
+#     libXrender-0.9.10                         OK
+#     libXcursor-1.1.14                         OK
+#     libXdamage-1.1.4                          OK
+#     libXfixes-5.0.3                           OK
 # libxcb-1.12 ->                                OK
 #     libXau-1.0.8                              OK
 #     xcb-proto-1.12                            OK
 #     libXdmcp-1.1.2                            OK
-# libXau-1.0.8                                  OK
 #     Xorg Protocol Headers                     OK
 # xcb-proto-1.12                                OK
 # libXdmcp-1.1.2                                OK
 #     Xorg Protocol Headers                     OK
+# libX11-1.6.4                                  OK
+# libXext-1.3.3                                 OK
+# libXcursor-1.1.14                             OK
+#     libXrender-0.9.10                         OK
+# libXrender-0.9.10                             OK
+# libXdamage-1.1.4                              OK
+# libXfixes-5.0.3                               OK
+# libXau-1.0.8                                  OK
 # mtdev-1.1.5                                   OK
 # wayland-protocols-1.7 ->                      OK
 #     Wayland-1.13.0                            OK
@@ -100,11 +116,12 @@ add_subdirectory(weston)
 #     libffi-3.2.1                              OK
 #     expat-2.2.0                               OK
 #     libxml2-2.9.4                             OK
-# expat-2.2.0                                   OK
 # libffi-3.2.1                                  OK
 # Fontconfig-2.12.1 ->                          OK
 #     FreeType-2.7.1                            OK
 #     libxml2-2.9.4                             OK
+#     expat-2.2.0                               OK
+# expat-2.2.0                                   OK
 # libxml2-2.9.4                                 OK
 # FreeType-2.7.1 ->                             OK
 #     libpng-1.6.29                             OK
