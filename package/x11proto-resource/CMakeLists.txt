@@ -26,6 +26,7 @@ if (NOT X11PROTO_RESOURCE_FOUND)
         ""
         ""
         "./configure --prefix=${CMAKE_INSTALL_PREFIX}")
+    add_dependencies(${X11PROTO_RESOURCE_BASE} libX11-1.6.4)
 else()
     add_custom_target(${X11PROTO_RESOURCE_BASE})
 endif()

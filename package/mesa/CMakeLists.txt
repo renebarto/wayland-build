@@ -44,7 +44,10 @@ if (NOT MESA_FOUND)
         libX11-1.6.4
         libXext-1.3.3
         libXfixes-5.0.3
-        libXdamage-1.1.4)
+        libXdamage-1.1.4
+        libdrm-2.4.78
+        glew-2.0.0
+        wayland-1.13.0)
 else()
     add_custom_target(${MESA_BASE})
 endif()
