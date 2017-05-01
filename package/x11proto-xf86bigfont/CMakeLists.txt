@@ -25,8 +25,10 @@ if (NOT X11PROTO_XF86BIGFONT_FOUND)
         ${X11PROTO_XF86BIGFONT_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX}")
-    add_dependencies(${X11PROTO_XF86BIGFONT_BASE} libX11-1.6.4)
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX}"
+        "make"
+        "make check"
+        "make install")
 else()
     add_custom_target(${X11PROTO_XF86BIGFONT_BASE})
 endif()

@@ -24,7 +24,10 @@ if (NOT WAYLAND_PROTOCOLS_FOUND)
         ${WAYLAND_PROTOCOLS_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX}")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX}"
+        "make"
+        "make check"
+        "make install")
     add_dependencies(${WAYLAND_PROTOCOLS_BASE} wayland-1.13.0)
 else()
     add_custom_target(${WAYLAND_PROTOCOLS_BASE})

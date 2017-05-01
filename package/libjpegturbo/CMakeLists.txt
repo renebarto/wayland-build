@@ -29,7 +29,10 @@ if (NOT LIBJPEGTURBO_FOUND)
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static \
             --mandir=${CMAKE_INSTALL_PREFIX}/usr/share/man \
             --with-jpeg8            \
-            --docdir=${CMAKE_INSTALL_PREFIX}/usr/share/doc/libjpeg-turbo-1.5.1")
+            --docdir=${CMAKE_INSTALL_PREFIX}/usr/share/doc/libjpeg-turbo-1.5.1"
+        "make"
+        "make check"
+        "make install")
 else()
     add_custom_target(${LIBJPEGTURBO_BASE})
 endif()

@@ -25,7 +25,10 @@ if (NOT LIBXCURSOR_FOUND)
         ""
         ""
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} --sysconfdir=${CMAKE_SYSROOT}/etc \
-            --localstatedir=${CMAKE_SYSROOT}/var --disable-static")
+            --localstatedir=${CMAKE_SYSROOT}/var --disable-static"
+        "make"
+        "make check"
+        "make install")
     add_dependencies(${LIBXCURSOR_BASE}
         libXrender-0.9.10)
 else()

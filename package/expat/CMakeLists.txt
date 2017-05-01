@@ -24,7 +24,10 @@ if (NOT EXPAT_FOUND)
         ${EXPAT_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static"
+        "make"
+        "make check"
+        "make install")
     add_auxiliary_target(${EXPAT_BASE} aux)
     add_custom_target(install_doc
         DEPENDS ${EXPAT_BASE}-aux

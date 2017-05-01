@@ -24,7 +24,10 @@ if (NOT LIBEVDEV_FOUND)
         ${LIBEVDEV_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX}")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX}"
+        "make"
+        "make check"
+        "make install")
 else()
     add_custom_target(${LIBEVDEV_BASE})
 endif()

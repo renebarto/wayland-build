@@ -24,7 +24,19 @@ if (NOT LIBXML2_FOUND)
         ${LIBXML2_BASE}
         "0001-Fix-XPointer-paths-beginning-with-range-to.patch;0002-Disallow-namespace-nodes-in-XPointer-ranges.patch"
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static --with-history --with-gnu-ld --without-python --without-debug --without-zlib --without-lzma --without-iconv")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} \
+            --disable-static \
+            --with-history \
+            --with-gnu-ld \
+            --without-python \
+            --without-debug \
+            --without-zlib \
+            --without-lzma \
+            --without-iconv"
+        "make"
+#        "make check" // No checking for now
+        ""
+        "make install")
 else()
     add_custom_target(${LIBXML2_BASE})
 endif()

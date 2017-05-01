@@ -39,7 +39,11 @@ if (NOT CAIRO_FOUND)
             --enable-png \
             --enable-svg \
             --enable-xml \
-            --disable-drm")
+            --disable-drm"
+        "make"
+        ""
+#        "make check" // One test fails
+        "make install")
     add_dependencies(${CAIRO_BASE} libpng-1.6.29 pixman-0.34.0 fontconfig-2.12.1 libdrm-2.4.78)
 else()
     add_custom_target(${CAIRO_BASE})

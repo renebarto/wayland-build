@@ -25,7 +25,10 @@ if (NOT FREETYPE_FOUND)
         ${FREETYPE_BASE}
         "0001-LFS-patch.patch;0002-LFS-patch-subpixel-rendering.patch"
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static"
+        "make"
+        "make check"
+        "make install")
 else()
     add_custom_target(${FREETYPE_BASE})
 endif()

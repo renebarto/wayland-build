@@ -26,7 +26,12 @@ if (NOT LIBGLEW_FOUND)
         ${LIBGLEW_BASE}
         ""
         ""
-        "echo test")
+        "echo test"
+        "CPATH=.:${CMAKE_INSTALL_PREFIX}/include LIBRARY_PATH=${CMAKE_INSTALL_PREFIX}/lib make \
+            GLEW_DEST=${CMAKE_INSTALL_PREFIX} \
+            LIBDIR=${CMAKE_INSTALL_PREFIX}/lib"
+        "make check"
+        "make install")
 else()
     add_custom_target(${LIBGLEW_BASE})
 endif()

@@ -26,7 +26,11 @@ if (NOT WESTON_FOUND)
         ""
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} \
             --enable-demo-clients-install \
-            --disable-setuid-install")
+            --disable-setuid-install"
+        "make"
+        ""
+#        "make check" // One test fails (xwayland)
+        "make install")
     add_dependencies(${WESTON_BASE}
         wayland-1.13.0
         wayland-protocols-1.7

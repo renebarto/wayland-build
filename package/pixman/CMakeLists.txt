@@ -24,7 +24,10 @@ if (NOT PIXMAN_FOUND)
         ${PIXMAN_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static"
+        "make"
+        "make check"
+        "make install")
     add_dependencies(${PIXMAN_BASE} libpng-1.6.29)
 else()
     add_custom_target(${PIXMAN_BASE})

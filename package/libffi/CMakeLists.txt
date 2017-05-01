@@ -24,7 +24,10 @@ if (NOT LIBFFI_FOUND)
         ${LIBFFI_BASE}
         "0001-Patch-for-correct-header-export.patch"
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static"
+        "make"
+        "make check"
+        "make install")
 else()
     add_custom_target(${LIBFFI_BASE})
 endif()

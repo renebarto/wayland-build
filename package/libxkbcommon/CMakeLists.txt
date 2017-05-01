@@ -24,7 +24,13 @@ if (NOT LIBXKBCOMMON_FOUND)
         ${LIBXKBCOMMON_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static -disable-x11 --docdir=${CMAKE_INSTALL_PREFIX}/usr/share/doc/libxkbcommon-0.7.1")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} \
+            --disable-static \
+            --disable-x11 \
+            --docdir=${CMAKE_INSTALL_PREFIX}/usr/share/doc/libxkbcommon-0.7.1"
+        "make"
+        "make check"
+        "make install")
 else()
     add_custom_target(${LIBXKBCOMMON_BASE})
 endif()

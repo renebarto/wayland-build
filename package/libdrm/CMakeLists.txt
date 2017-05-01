@@ -24,7 +24,10 @@ if (NOT LIBDRM_FOUND)
         ${LIBDRM_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --enable-udev --disable-static")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --enable-udev --disable-static"
+        "make"
+        "make check"
+        "make install")
     add_dependencies(${LIBDRM_BASE}
         libpciaccess-0.13.4)
 else()

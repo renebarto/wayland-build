@@ -37,7 +37,10 @@ if (NOT MESA_FOUND)
             --enable-gles2 \
             --with-egl-platforms=x11,wayland,drm \
             --enable-gbm \
-            --enable-shared-glapi")
+            --enable-shared-glapi"
+        "make"
+        "make check"
+        "make install")
     add_dependencies(${MESA_BASE}
         libXcursor-1.1.14
         libXrender-0.9.10
@@ -45,8 +48,9 @@ if (NOT MESA_FOUND)
         libXext-1.3.3
         libXfixes-5.0.3
         libXdamage-1.1.4
+        libxshmfence-1.2
         libdrm-2.4.78
-        glew-2.0.0
+#        glew-2.0.0
         wayland-1.13.0)
 else()
     add_custom_target(${MESA_BASE})

@@ -24,7 +24,10 @@ if (NOT WAYLAND_FOUND)
         ${WAYLAND_BASE}
         "0001-Support-architectures-with-non-empty-__USER_LABEL_PR.patch;0002-configure-add-option-to-disable-tests.patch"
         "autoreconf"
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static --disable-documentation")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static --disable-documentation"
+        "make"
+        "make check"
+        "make install")
     add_dependencies(${WAYLAND_BASE} libffi-3.2.1 expat-2.2.0 libxml2-2.9.4)
 else()
     add_custom_target(${WAYLAND_BASE})

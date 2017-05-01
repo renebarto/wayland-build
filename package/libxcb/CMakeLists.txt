@@ -25,7 +25,11 @@ if (NOT LIBXCB_FOUND)
         ""
         ""
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} --sysconfdir=${CMAKE_SYSROOT}/etc \
-            --localstatedir=${CMAKE_SYSROOT}/var --disable-static --enable-xinput")
+            --localstatedir=${CMAKE_SYSROOT}/var --disable-static --enable-xinput"
+        "make"
+        "make check"
+        "make install")
+    add_dependencies(${LIBXCB_BASE} libpthread-stubs-0.4)
 else()
     add_custom_target(${LIBXCB_BASE})
 endif()

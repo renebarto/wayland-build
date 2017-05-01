@@ -25,8 +25,11 @@ if (NOT LIBX11_FOUND)
         ""
         ""
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} --sysconfdir=${CMAKE_SYSROOT}/etc \
-            --localstatedir=${CMAKE_SYSROOT}/var --disable-static")
-#    add_dependencies(${LIBX11_BASE})
+            --localstatedir=${CMAKE_SYSROOT}/var --disable-static"
+        "make"
+        "make check"
+        "make install")
+    add_dependencies(${LIBX11_BASE} xtrans-1.3.5)
 else()
     add_custom_target(${LIBX11_BASE})
 endif()

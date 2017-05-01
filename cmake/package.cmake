@@ -136,14 +136,25 @@ function(setup_configure_command name)
             WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
             VERBATIM)
     else()
-        add_custom_command(
-            OUTPUT ${STAMP_CONFIGURE}
-            DEPENDS ${STAMP_PATCH}
-            COMMAND sh -c ${CONFIGURE_COMMAND}
-            COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_CONFIGURE}
-            COMMENT "Configuring ${name}"
-            WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
-            VERBATIM)
+        if (CONFIGURE_COMMAND)
+            add_custom_command(
+                OUTPUT ${STAMP_CONFIGURE}
+                DEPENDS ${STAMP_PATCH}
+                COMMAND sh -c ${CONFIGURE_COMMAND}
+                COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_CONFIGURE}
+                COMMENT "Configuring ${name}"
+                WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
+                VERBATIM)
+        else()
+            add_custom_command(
+                OUTPUT ${STAMP_CONFIGURE}
+                DEPENDS ${STAMP_PATCH}
+                COMMAND sh -c echo No configure needed
+                COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_CONFIGURE}
+                COMMENT "Configuring ${name}"
+                WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
+                VERBATIM)
+        endif()
     endif()
 #    message(STATUS "setup_configure_command")
 endfunction()
@@ -152,17 +163,30 @@ function(setup_make_command name)
     get_property(STAMP_DIR TARGET ${name}         PROPERTY _PKG_STAMP_DIR)
     get_property(BUILD_DIR TARGET ${name}         PROPERTY _PKG_BUILD_DIR)
     get_property(MODULE_DIR TARGET ${name}        PROPERTY _PKG_MODULE)
+    get_property(BUILD_COMMAND TARGET ${name}     PROPERTY _PKG_BUILD_COMMAND)
+    message(STATUS "Build command  : ${BUILD_COMMAND}")
 
     set(STAMP_CONFIGURE ${STAMP_DIR}/stamp_configure)
     set(STAMP_MAKE ${STAMP_DIR}/stamp_make)
-    add_custom_command(
-        OUTPUT ${STAMP_MAKE}
-        DEPENDS ${STAMP_CONFIGURE}
-        COMMAND make
-        COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_MAKE}
-        COMMENT "Building ${name}"
-        WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
-        VERBATIM)
+    if (BUILD_COMMAND)
+        add_custom_command(
+            OUTPUT ${STAMP_MAKE}
+            DEPENDS ${STAMP_CONFIGURE}
+            COMMAND sh -c ${BUILD_COMMAND}
+            COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_MAKE}
+            COMMENT "Building ${name}"
+            WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
+            VERBATIM)
+    else()
+        add_custom_command(
+            OUTPUT ${STAMP_MAKE}
+            DEPENDS ${STAMP_CONFIGURE}
+            COMMAND sh -c echo Build not needed
+            COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_MAKE}
+            COMMENT "Building ${name}"
+            WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
+            VERBATIM)
+    endif()
 #    message(STATUS "setup_make_command")
 endfunction()
 
@@ -170,17 +194,30 @@ function(setup_check_command name)
     get_property(STAMP_DIR TARGET ${name}         PROPERTY _PKG_STAMP_DIR)
     get_property(BUILD_DIR TARGET ${name}         PROPERTY _PKG_BUILD_DIR)
     get_property(MODULE_DIR TARGET ${name}        PROPERTY _PKG_MODULE)
+    get_property(CHECK_COMMAND TARGET ${name}     PROPERTY _PKG_CHECK_COMMAND)
 
+    message(STATUS "Check command  : ${CHECK_COMMAND}")
     set(STAMP_MAKE ${STAMP_DIR}/stamp_make)
     set(STAMP_CHECK ${STAMP_DIR}/stamp_check)
-    add_custom_command(
-        OUTPUT ${STAMP_CHECK}
-        DEPENDS ${STAMP_MAKE}
-        COMMAND make
-        COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_CHECK}
-        COMMENT "Checking ${name}"
-        WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
-        VERBATIM)
+    if(CHECK_COMMAND)
+        add_custom_command(
+            OUTPUT ${STAMP_CHECK}
+            DEPENDS ${STAMP_MAKE}
+            COMMAND sh -c ${CHECK_COMMAND}
+            COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_CHECK}
+            COMMENT "Checking ${name}"
+            WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
+            VERBATIM)
+    else()
+        add_custom_command(
+            OUTPUT ${STAMP_CHECK}
+            DEPENDS ${STAMP_MAKE}
+            COMMAND sh -c echo Check not needed
+            COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_CHECK}
+            COMMENT "Checking ${name}"
+            WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
+            VERBATIM)
+    endif()
 #    message(STATUS "setup_check_command")
 endfunction()
 
@@ -194,7 +231,7 @@ function(setup_staging_command name)
     add_custom_command(
         OUTPUT ${STAMP_STAGING}
         DEPENDS ${STAMP_CHECK}
-        #    COMMAND make install
+        COMMAND sh -c  echo Staging not done
         COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_STAGING}
         COMMENT "Staging ${name} - skipping for now"
         WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
@@ -206,17 +243,30 @@ function(setup_install_command name)
     get_property(STAMP_DIR TARGET ${name}         PROPERTY _PKG_STAMP_DIR)
     get_property(BUILD_DIR TARGET ${name}         PROPERTY _PKG_BUILD_DIR)
     get_property(MODULE_DIR TARGET ${name}        PROPERTY _PKG_MODULE)
+    get_property(INSTALL_COMMAND TARGET ${name}   PROPERTY _PKG_INSTALL_COMMAND)
 
+    message(STATUS "Install command: ${INSTALL_COMMAND}")
     set(STAMP_STAGING ${STAMP_DIR}/stamp_staging)
     set(STAMP_INSTALL ${STAMP_DIR}/stamp_install)
-    add_custom_command(
-        OUTPUT ${STAMP_INSTALL}
-        DEPENDS ${STAMP_STAGING}
-        COMMAND make install
-        COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_INSTALL}
-        COMMENT "Installing ${name}"
-        WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
-        VERBATIM)
+    if(INSTALL_COMMAND)
+        add_custom_command(
+            OUTPUT ${STAMP_INSTALL}
+            DEPENDS ${STAMP_STAGING}
+            COMMAND sh -c  ${INSTALL_COMMAND}
+            COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_INSTALL}
+            COMMENT "Installing ${name}"
+            WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
+            VERBATIM)
+    else()
+        add_custom_command(
+            OUTPUT ${STAMP_INSTALL}
+            DEPENDS ${STAMP_STAGING}
+            COMMAND sh -c echo Install not needed
+            COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_INSTALL}
+            COMMENT "Installing ${name}"
+            WORKING_DIRECTORY ${BUILD_DIR}/${MODULE_DIR}
+            VERBATIM)
+    endif()
 #    message(STATUS "setup_install_command")
 endfunction()
 
@@ -244,7 +294,12 @@ endfunction()
 function (setup_package_automake
     DOWNLOAD_DIR BUILD_DIR STAGING_DIR STAMP_DIR PACKAGE_DIR
     SITE FULLNAME MODULE BASE
-    PATCH_LIST AUTO_RECONFIGURE_COMMAND CONFIGURE_COMMAND)
+    PATCH_LIST
+    AUTO_RECONFIGURE_COMMAND
+    CONFIGURE_COMMAND
+    BUILD_COMMAND
+    CHECK_COMMAND
+    INSTALL_COMMAND)
     set(STAMP_COMPLETE ${STAMP_DIR}/stamp_complete)
     add_custom_target(${BASE} ALL DEPENDS ${STAMP_COMPLETE})
     set_property(TARGET ${BASE} PROPERTY _PKG_DOWNLOAD_DIR ${DOWNLOAD_DIR})
@@ -258,6 +313,9 @@ function (setup_package_automake
     set_property(TARGET ${BASE} PROPERTY _PKG_PATCH_LIST ${PATCH_LIST})
     set_property(TARGET ${BASE} PROPERTY _PKG_AUTO_RECONFIGURE_COMMAND ${AUTO_RECONFIGURE_COMMAND})
     set_property(TARGET ${BASE} PROPERTY _PKG_CONFIGURE_COMMAND ${CONFIGURE_COMMAND})
+    set_property(TARGET ${BASE} PROPERTY _PKG_BUILD_COMMAND ${BUILD_COMMAND})
+    set_property(TARGET ${BASE} PROPERTY _PKG_CHECK_COMMAND ${CHECK_COMMAND})
+    set_property(TARGET ${BASE} PROPERTY _PKG_INSTALL_COMMAND ${INSTALL_COMMAND})
 
 #    message(STATUS "Module ${BASE}")
 #    get_property(PROP TARGET ${BASE} PROPERTY _PKG_DOWNLOAD_DIR)

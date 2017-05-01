@@ -24,8 +24,10 @@ if (NOT X11PROTO_DRI3_FOUND)
         ${X11PROTO_DRI3_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX}")
-    add_dependencies(${X11PROTO_DRI3_BASE} libX11-1.6.4)
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX}"
+        "make"
+        "make check"
+        "make install")
 else()
     add_custom_target(${X11PROTO_DRI3_BASE})
 endif()

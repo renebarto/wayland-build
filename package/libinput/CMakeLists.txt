@@ -24,7 +24,10 @@ if (NOT LIBINPUT_FOUND)
         ${LIBINPUT_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-tests --disable-libwacom --disable-event-gui")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-tests --disable-libwacom --disable-event-gui"
+        "make"
+        "make check"
+        "make install")
     add_dependencies(${LIBINPUT_BASE} libevdev-1.5.6 mtdev-1.1.5)
 else()
     add_custom_target(${LIBINPUT_BASE})

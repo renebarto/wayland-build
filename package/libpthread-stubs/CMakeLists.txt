@@ -1,0 +1,33 @@
+project(libpthread-stubs)
+
+set(LIBPTHREAD_STUBS_VERSION 0.4)
+set(LIBPTHREAD_STUBS_REQUIRED_VERSION ${LIBPTHREAD_STUBS_VERSION})
+set(LIBPTHREAD_STUBS_NAME ${PROJECT_NAME})
+set(LIBPTHREAD_STUBS_BASE ${LIBPTHREAD_STUBS_NAME}-${LIBPTHREAD_STUBS_VERSION})
+
+find_package(LibPthreadStubs QUIET)
+
+if (NOT LIBPTHREAD_STUBS_FOUND)
+    set(LIBPTHREAD_STUBS_EXTENSION tar.bz2)
+    set(LIBPTHREAD_STUBS_FULLNAME ${LIBPTHREAD_STUBS_BASE}.${LIBPTHREAD_STUBS_EXTENSION})
+    set(LIBPTHREAD_STUBS_SITE https://xcb.freedesktop.org/dist)
+    set(LIBPTHREAD_STUBS_STAMP_DIR ${PACKAGE_STAMP_DIR}/${LIBPTHREAD_STUBS_BASE})
+    setup_package_automake(
+        ${PACKAGE_DOWNLOAD_DIR}
+        ${PACKAGE_BUILD_DIR}
+        ${PACKAGE_STAGING_DIR}
+        ${LIBPTHREAD_STUBS_STAMP_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${LIBPTHREAD_STUBS_SITE}
+        ${LIBPTHREAD_STUBS_FULLNAME}
+        ${LIBPTHREAD_STUBS_BASE}
+        ${LIBPTHREAD_STUBS_BASE}
+        ""
+        ""
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX}"
+        "make"
+        "make check"
+        "make install")
+else()
+    add_custom_target(${LIBPTHREAD_STUBS_BASE})
+endif()

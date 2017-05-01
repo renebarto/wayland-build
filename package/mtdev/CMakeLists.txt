@@ -24,7 +24,10 @@ if (NOT MTDEV_FOUND)
         ${MTDEV_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static")
+        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static"
+        "make"
+        "make check"
+        "make install")
 else()
     add_custom_target(${MTDEV_BASE})
 endif()
