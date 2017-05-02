@@ -23,9 +23,9 @@ if (NOT GSTREAMER_FOUND)
         ${GSTREAMER_BASE}
         ${GSTREAMER_BASE}
         ""
-        "./autogen.sh"
-        "./configureD=${CMAKE_INSTALL_PREFIX}"
-        "make"
+        ""
+        "PATH=${CMAKE_INSTALL_PREFIX}/bin:$PATH ./configure --prefix=${CMAKE_INSTALL_PREFIX}"
+        "PATH=${CMAKE_INSTALL_PREFIX}/bin:$PATH make"
         "make check"
         "make install")
 else()

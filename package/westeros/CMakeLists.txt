@@ -311,7 +311,7 @@ if (NOT WESTEROS_FOUND)
         ${WESTEROS_BASE}
         ${WESTEROS_BASE}
         ""
-        "mkdir -p cfg;aclocal;automake --add-missing;autoconf -Icfg"
+        "mkdir -p cfg && autoreconf -Icfg"
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} \
             --enable-app=yes \
             --enable-test=yes \

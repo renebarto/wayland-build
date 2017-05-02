@@ -7,10 +7,10 @@
 
 find_package(PkgConfig)
 pkg_check_modules(PC_GSTREAMER QUIET gstreamer-1.0)
-pkg_check_modules(PC_GSTREAMER QUIET gstreamer-base-1.0)
-pkg_check_modules(PC_GSTREAMER QUIET gstreamer-check-1.0)
-pkg_check_modules(PC_GSTREAMER QUIET gstreamer-controller-1.0)
-pkg_check_modules(PC_GSTREAMER QUIET gstreamer-net-1.0)
+pkg_check_modules(PC_GSTREAMER_BASE QUIET gstreamer-base-1.0)
+pkg_check_modules(PC_GSTREAMER_CHECK QUIET gstreamer-check-1.0)
+pkg_check_modules(PC_GSTREAMER_CONTROLLER QUIET gstreamer-controller-1.0)
+pkg_check_modules(PC_GSTREAMER_NET QUIET gstreamer-net-1.0)
 set(GSTREAMER_DEFINITIONS ${PC_GSTREAMER_CFLAGS_OTHER})
 set(GSTREAMER_BASE_DEFINITIONS ${PC_GSTREAMER_BASE_CFLAGS_OTHER})
 set(GSTREAMER_CHECK_DEFINITIONS ${PC_GSTREAMER_CHECK_CFLAGS_OTHER})
@@ -125,7 +125,7 @@ include(FindPackageHandleStandardArgs)
 # if all listed variables are TRUE
 find_package_handle_standard_args(GSTREAMER DEFAULT_MSG
     GSTREAMER_LIBRARY GSTREAMER_INCLUDE_DIR)
-find_package_handle_standard_args(GSTREAMER_BASe DEFAULT_MSG
+find_package_handle_standard_args(GSTREAMER_BASE DEFAULT_MSG
     GSTREAMER_BASE_LIBRARY GSTREAMER_BASE_INCLUDE_DIR)
 find_package_handle_standard_args(GSTREAMER_CHECK DEFAULT_MSG
     GSTREAMER_CHECK_LIBRARY GSTREAMER_CHECK_INCLUDE_DIR)

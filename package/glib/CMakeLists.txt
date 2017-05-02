@@ -24,11 +24,15 @@ if (NOT LIBGLIB2_FOUND)
         ${LIBGLIB2_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --with-pcre=system"
+        "LD_LIBRARY_PATH=${CMAKE_INSTALL_PREFIX}/lib ./configure \
+            --prefix=${CMAKE_INSTALL_PREFIX} \
+            --with-pcre=system"
         "make"
         ""
 #        "make check" // 2 tests failing
         "make install")
+        add_dependencies(${LIBGLIB2_BASE}
+            pcre-8.40)
 else()
     add_custom_target(${LIBGLIB2_BASE})
 endif()

@@ -61,8 +61,11 @@ add_subdirectory(mesa)
 add_subdirectory(cairo)
 add_subdirectory(weston)
 add_subdirectory(util-linux)
+add_subdirectory(bzip2)
+add_subdirectory(pcre)
 add_subdirectory(glib)
 add_subdirectory(gstreamer)
+add_subdirectory(gst-plugins-base)
 add_subdirectory(westeros)
 
 # libglew-dev libglu1-mesa-dev libxxf86vm-dev
