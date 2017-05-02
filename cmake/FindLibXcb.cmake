@@ -15,7 +15,7 @@ else()
     set(FOUND_TEXT "Not found")
 endif()
 
-message(STATUS "libxcb: ${FOUND_TEXT}")
+message(STATUS "libxcb         : ${FOUND_TEXT}")
 message(STATUS "  version      : ${PC_LIBXCB_VERSION}")
 message(STATUS "  cflags       : ${PC_LIBXCB_CFLAGS}")
 message(STATUS "  cflags other : ${PC_LIBXCB_CFLAGS_OTHER}")

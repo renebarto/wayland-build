@@ -311,7 +311,7 @@ if (NOT WESTEROS_FOUND)
         ${WESTEROS_BASE}
         ${WESTEROS_BASE}
         ""
-        "aclocal;automake --add-missing;autoconf -Icfg"
+        "mkdir -p cfg;aclocal;automake --add-missing;autoconf -Icfg"
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} \
             --enable-app=yes \
             --enable-test=yes \
@@ -322,7 +322,7 @@ if (NOT WESTEROS_FOUND)
         ""
         #        "make check" // One test fails (xwayland)
         "make install")
-    add_dependencies(${WESTON_BASE}
+    add_dependencies(${WESTEROS_BASE}
         wayland-1.13.0
         wayland-protocols-1.7
         libevdev-1.5.6
@@ -332,7 +332,9 @@ if (NOT WESTEROS_FOUND)
         mesa-17.0.4
         mtdev-1.1.5
         libXcursor-1.1.14
-        libXrender-0.9.10)
+        libXrender-0.9.10
+        glib-2.52.1
+        gstreamer-1.10.4)
 
 else()
     add_custom_target(${WESTEROS_BASE})

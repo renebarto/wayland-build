@@ -117,6 +117,7 @@ function(setup_configure_command name)
     set(STAMP_PATCH ${STAMP_DIR}/stamp_patch)
     set(STAMP_CONFIGURE ${STAMP_DIR}/stamp_configure)
     set(STAMP_RECONFIGURE ${STAMP_DIR}/stamp_reconfigure)
+    message(STATUS "Auto re-configure ${AUTO_RECONFIGURE_COMMAND}")
     message(STATUS "Configure ${CONFIGURE_COMMAND}")
     if(AUTO_RECONFIGURE_COMMAND)
         add_custom_command(

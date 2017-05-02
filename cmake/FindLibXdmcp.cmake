@@ -15,7 +15,7 @@ else()
     set(FOUND_TEXT "Not found")
 endif()
 
-message(STATUS "libxdmcp         : ${FOUND_TEXT}")
+message(STATUS "libxdmcp       : ${FOUND_TEXT}")
 message(STATUS "  version      : ${PC_LIBXDMCP_VERSION}")
 message(STATUS "  cflags       : ${PC_LIBXDMCP_CFLAGS}")
 message(STATUS "  cflags other : ${PC_LIBXDMCP_CFLAGS_OTHER}")
