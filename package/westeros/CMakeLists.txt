@@ -1,6 +1,6 @@
 project(westeros)
 
-set(WESTEROS_VERSION CMF-20170417)
+set(WESTEROS_VERSION 87bc367344f7aab820b74e8fd01f4cf104807ab8)
 #set(WESTEROS_REQUIRED_VERSION ${WESTEROS_VERSION})
 set(WESTEROS_NAME ${PROJECT_NAME})
 set(WESTEROS_BASE ${WESTEROS_NAME}-${WESTEROS_VERSION})
@@ -311,14 +311,17 @@ if (NOT WESTEROS_FOUND)
         ${WESTEROS_BASE}
         ${WESTEROS_BASE}
         ""
-        "mkdir -p cfg && autoreconf -Icfg"
+        "mkdir -p cfg && autoreconf -i -f -Icfg"
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} \
             --enable-app=yes \
             --enable-test=yes \
             --enable-rendergl=yes \
             --enable-sbprotocol=yes \
             --enable-xdgv5=yes"
-        "CXXFLAGS=-DWESTEROS_PLATFORM_DRM -I${CMAKE_INSTALL_PREFIX}/include/interface/vmcs_host/linux make"
+        "SCANNER_TOOL=${CMAKE_INSTALL_PREFIX}/bin/wayland-scanner make -C ${PACKAGE_BUILD_DIR}/${WESTEROS_BASE}/protocol && \
+         CFLAGS='-DWESTEROS_PLATFORM_DRM -DWESTEROS_HAVE_WAYLAND_EGL -I${CMAKE_INSTALL_PREFIX}/include/interface/vmcs_host/linux -I${CMAKE_INSTALL_PREFIX}/include/libdrm -I./include -I./protocol -I${CMAKE_INSTALL_PREFIX}/include/wayland' \
+         CPPFLAGS='-DWESTEROS_PLATFORM_DRM -DWESTEROS_HAVE_WAYLAND_EGL -I${CMAKE_INSTALL_PREFIX}/include/interface/vmcs_host/linux -I${CMAKE_INSTALL_PREFIX}/include/libdrm -I./include -I./protocol -I${CMAKE_INSTALL_PREFIX}/include/wayland' \
+         make"
         ""
         #        "make check" // One test fails (xwayland)
         "make install")
@@ -334,7 +337,8 @@ if (NOT WESTEROS_FOUND)
         libXcursor-1.1.14
         libXrender-0.9.10
         glib-2.52.1
-        gstreamer-1.10.4)
+        gstreamer-1.10.4
+        westeros-simplebuffer-${WESTEROS_VERSION})
 
 else()
     add_custom_target(${WESTEROS_BASE})

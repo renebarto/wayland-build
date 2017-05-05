@@ -66,6 +66,8 @@ add_subdirectory(pcre)
 add_subdirectory(glib)
 add_subdirectory(gstreamer)
 add_subdirectory(gst-plugins-base)
+add_subdirectory(westeros-simplebuffer)
+add_subdirectory(westeros-simpleshell)
 add_subdirectory(westeros)
 
 # libglew-dev libglu1-mesa-dev libxxf86vm-dev

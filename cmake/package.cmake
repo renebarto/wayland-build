@@ -57,15 +57,17 @@ function(setup_extract_command name)
     get_property(DOWNLOAD_DIR TARGET ${name}      PROPERTY _PKG_DOWNLOAD_DIR)
     get_property(BUILD_DIR TARGET ${name}         PROPERTY _PKG_BUILD_DIR)
     get_property(FULLNAME TARGET ${name}          PROPERTY _PKG_FULLNAME)
+    get_property(MODULE_DIR TARGET ${name}        PROPERTY _PKG_MODULE)
 
     set(STAMP_DOWNLOAD ${STAMP_DIR}/stamp_download)
     set(STAMP_EXTRACT ${STAMP_DIR}/stamp_extract)
     add_custom_command(
         OUTPUT ${STAMP_EXTRACT}
         DEPENDS ${STAMP_DOWNLOAD}
-        COMMAND tar xf ${DOWNLOAD_DIR}/${FULLNAME} -C .
+        COMMAND mkdir -p ./${MODULE_DIR}
+        COMMAND tar xf ${DOWNLOAD_DIR}/${FULLNAME} --strip-components=1 -C ./${MODULE_DIR}
         COMMAND ${CMAKE_COMMAND} -E touch ${STAMP_EXTRACT}
-        COMMENT "Extracting ${name}"
+        COMMENT "Extracting ${name}: ${DOWNLOAD_DIR}/${FULLNAME} -> ${MODULE_DIR}"
         WORKING_DIRECTORY ${BUILD_DIR}
         VERBATIM)
 #    message(STATUS "setup_extract_command")
