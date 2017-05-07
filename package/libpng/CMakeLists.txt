@@ -24,11 +24,11 @@ if (NOT LIBPNG_FOUND)
         ${LIBPNG_BASE}
         "libpng-1.6.29-apng.patch"
         ""
-        "LIBS=-lpthread CFLAGS=-I${CMAKE_INSTALL_PREFIX}/include CFLAGS=-L${CMAKE_INSTALL_PREFIX}/lib \
+        "CFLAGS=-I${CMAKE_INSTALL_PREFIX}/include LDFLAGS='-L${CMAKE_INSTALL_PREFIX}/lib -lpthread' \
             ./configure  \
                 --prefix=${CMAKE_INSTALL_PREFIX} \
                 --disable-static"
-        "make"
+        "CPATH=${CMAKE_INSTALL_PREFIX}/include LIBRARY_PATH=${CMAKE_INSTALL_PREFIX}/lib make"
         "make check"
         "make install")
     add_dependencies(${LIBPNG_BASE} zlib-1.2.11)

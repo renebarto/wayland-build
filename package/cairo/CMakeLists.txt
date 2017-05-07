@@ -24,7 +24,7 @@ if (NOT CAIRO_FOUND)
         ${CAIRO_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static \
+        "CFLAGS=-I${CMAKE_INSTALL_PREFIX}/include LDFLAGS=-L${CMAKE_INSTALL_PREFIX}/lib ./configure --prefix=${CMAKE_INSTALL_PREFIX} --disable-static \
             --enable-trace=no \
             --enable-interpreter=no \
             --disable-directfb \

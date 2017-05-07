@@ -1,0 +1,11 @@
+--- westeros-nested-orig.cpp	2017-05-07 14:28:26.479859001 +0200
++++ westeros-nested.cpp	2017-05-07 15:49:26.168850828 +0200
+@@ -1028,7 +1028,7 @@
+       struct wl_buffer *buffer;
+       
+       buffer= wl_sb_create_buffer( nc->sb, 
+-                                   (uint32_t)deviceBuffer, 
++                                   *reinterpret_cast<uint32_t *>(&deviceBuffer), 
+                                    width, 
+                                    height, 
+                                    stride,

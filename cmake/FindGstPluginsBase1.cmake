@@ -48,7 +48,7 @@ if (GST_PLUGINS_BASE_FOUND)
         message(STATUS "Found libgst-plugins-base-1.0")
     endif()
 else()
-    message(WARNING "Could not find libgst-plugins-base-1.0, please install: sudo apt-get install libgstreamer-plugins-base1.0-dev")
+    message(WARNING "Could not find libgst-plugins-base-1.0, please install: sudo apt-get install gstreamer1.0-plugins-base")
 endif()
 
 mark_as_advanced(

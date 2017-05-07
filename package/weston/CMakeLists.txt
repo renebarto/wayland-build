@@ -24,7 +24,7 @@ if (NOT WESTON_FOUND)
         ${WESTON_BASE}
         ""
         ""
-        "./configure --prefix=${CMAKE_INSTALL_PREFIX} \
+        "CFLAGS=-I${CMAKE_INSTALL_PREFIX}/include LDFLAGS=-L${CMAKE_INSTALL_PREFIX}/lib ./configure --prefix=${CMAKE_INSTALL_PREFIX} \
             --enable-demo-clients-install \
             --disable-setuid-install"
         "make"

@@ -30,11 +30,11 @@ if (NOT FONTCONFIG_FOUND)
             --localstatedir=${CMAKE_SYSROOT}/var \
             --disable-docs \
             --docdir=${CMAKE_INSTALL_PREFIX}/share/doc/fontconfig-2.12.1"
-        "make"
+        "PATH=${CMAKE_INSTALL_PREFIX}/bin:$PATH make"
         ""
 #        "make check" No checking for now
         "make install")
-    add_dependencies(${FONTCONFIG_BASE} freetype-2.7.1 expat-2.2.0)
+    add_dependencies(${FONTCONFIG_BASE} freetype-2.7.1 expat-2.2.0 gperf-3.0.4)
 else()
     add_custom_target(${FONTCONFIG_BASE})
 endif()

@@ -24,7 +24,7 @@ if (NOT LIBGLIB2_FOUND)
         ${LIBGLIB2_BASE}
         ""
         ""
-        "LD_LIBRARY_PATH=${CMAKE_INSTALL_PREFIX}/lib ./configure \
+        "PATH=${CMAKE_INSTALL_PREFIX}/bin:$PATH LD_LIBRARY_PATH=${CMAKE_INSTALL_PREFIX}/lib ./configure \
             --prefix=${CMAKE_INSTALL_PREFIX} \
             --with-pcre=system"
         "make"

@@ -1,11 +1,11 @@
 project(westeros)
 
 set(WESTEROS_VERSION 87bc367344f7aab820b74e8fd01f4cf104807ab8)
-#set(WESTEROS_REQUIRED_VERSION ${WESTEROS_VERSION})
+set(WESTEROS_REQUIRED_VERSION 1.0.0)
 set(WESTEROS_NAME ${PROJECT_NAME})
 set(WESTEROS_BASE ${WESTEROS_NAME}-${WESTEROS_VERSION})
 
-#find_package(Westeros QUIET)
+find_package(Westeros QUIET)
 
 if (NOT WESTEROS_FOUND)
     set(WESTEROS_EXTENSION tar.gz)
@@ -310,7 +310,7 @@ if (NOT WESTEROS_FOUND)
         ${WESTEROS_FULLNAME}
         ${WESTEROS_BASE}
         ${WESTEROS_BASE}
-        ""
+        "0001-Fix_voidp_to_uint32_conversion.patch"
         "mkdir -p cfg && autoreconf -i -f -Icfg"
         "./configure --prefix=${CMAKE_INSTALL_PREFIX} \
             --enable-app=yes \
@@ -338,7 +338,13 @@ if (NOT WESTEROS_FOUND)
         libXrender-0.9.10
         glib-2.52.1
         gstreamer-1.10.4
-        westeros-simplebuffer-${WESTEROS_VERSION})
+        gst-plugins-base-1.10.4
+        gst-plugins-good-1.10.4
+        gst-plugins-bad-1.10.4
+        gstreamer-1.10.4
+        westeros-simplebuffer-${WESTEROS_VERSION}
+        westeros-simpleshell-${WESTEROS_VERSION}
+        westeros-soc-${WESTEROS_VERSION})
 
 else()
     add_custom_target(${WESTEROS_BASE})
