@@ -168,55 +168,207 @@ add_custom_target(westeros-vpc-protocol
     ${WESTEROS_VPC_PROTOCOL_OUTPUT_SERVER_HEADER})
 
 set(WESTEROS_SIMPLE_BUFFER_CLIENT_SOURCES
-    simplebuffer/protocol/simplebuffer-protocol.c)
+    simplebuffer/protocol/simplebuffer-protocol.c
+    simplebuffer/westeros-simplebuffer.cpp)
 set(WESTEROS_SIMPLE_BUFFER_CLIENT_HEADERS
-    simplebuffer/protocol/simplebuffer-client-protocol.h)
-add_library(westeros_simplebuffer_client
+    simplebuffer/protocol/simplebuffer-client-protocol.h
+    simplebuffer/westeros-simplebuffer.h)
+add_library(westeros_simplebuffer_client_shared SHARED
     ${WESTEROS_SIMPLE_BUFFER_CLIENT_SOURCES}
     ${WESTEROS_SIMPLE_BUFFER_CLIENT_HEADERS})
+add_library(westeros_simplebuffer_client_static STATIC
+    ${WESTEROS_SIMPLE_BUFFER_CLIENT_SOURCES}
+    ${WESTEROS_SIMPLE_BUFFER_CLIENT_HEADERS})
+
 set(WESTEROS_SIMPLE_BUFFER_SERVER_SOURCES
     simplebuffer/protocol/simplebuffer-protocol.c)
 set(WESTEROS_SIMPLE_BUFFER_SERVER_HEADERS
     simplebuffer/protocol/simplebuffer-server-protocol.h)
-add_library(westeros_simplebuffer_server
+add_library(westeros_simplebuffer_server_shared SHARED
+    ${WESTEROS_SIMPLE_BUFFER_SERVER_SOURCES}
+    ${WESTEROS_SIMPLE_BUFFER_SERVER_HEADERS})
+add_library(westeros_simplebuffer_server_static STATIC
     ${WESTEROS_SIMPLE_BUFFER_SERVER_SOURCES}
     ${WESTEROS_SIMPLE_BUFFER_SERVER_HEADERS})
 
-#    set(STAMP_EXTRACT ${WESTEROS_STAMP_DIR}/stamp_extract)
-#    add_custom_target(${WESTEROS_BASE} DEPENDS ${STAMP_EXTRACT})
-#    set_property(TARGET ${WESTEROS_BASE} PROPERTY _PKG_DOWNLOAD_DIR ${PACKAGE_DOWNLOAD_DIR})
-#    set_property(TARGET ${WESTEROS_BASE} PROPERTY _PKG_BUILD_DIR ${PACKAGE_BUILD_DIR})
-#    set_property(TARGET ${WESTEROS_BASE} PROPERTY _PKG_STAMP_DIR ${WESTEROS_STAMP_DIR})
-#    set_property(TARGET ${WESTEROS_BASE} PROPERTY _PKG_PACKAGE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-#    set_property(TARGET ${WESTEROS_BASE} PROPERTY _PKG_STAGING_DIR ${PACKAGE_STAGING_DIR})
-#    set_property(TARGET ${WESTEROS_BASE} PROPERTY _PKG_SITE ${WESTEROS_SITE})
-#    set_property(TARGET ${WESTEROS_BASE} PROPERTY _PKG_FULLNAME ${WESTEROS_FULLNAME})
-#    set_property(TARGET ${WESTEROS_BASE} PROPERTY _PKG_MODULE ${WESTEROS_BASE})
-#    setup_mkdir_command(${WESTEROS_BASE})
-#    setup_download_command(${WESTEROS_BASE})
-#    setup_extract_command(${WESTEROS_BASE})
-#    add_dependencies(${WESTEROS_BASE}
-#        wayland-1.13.0
-#        wayland-protocols-1.7
-#        libevdev-1.5.6
-#        libxkbcommon-0.7.1
-#        cairo-1.14.8
-#        libjpeg-turbo-1.5.1
-#        mesa-17.0.4
-#        mtdev-1.1.5
-#        libXcursor-1.1.14
-#        libXrender-0.9.10)
-#
-#    set(WESTEROS_BUILD ${PACKAGE_BUILD_DIR}/${WESTEROS_BASE})
-#    set(WESTEROS_PROTOCOLS westeros-protocol)
-#    set(WESTEROS_SIMPLE_SHELL westeros-simpleshell)
-#    set(WESTEROS_SIMPLE_BUFFER westeros-simplebuffer)
-#    set(WESTEROS_GL westeros-gl)
-#    set(WESTEROS_SINK westeros-sink)
-#    set(WESTEROS_SINK westeros-soc)
-#    set(WESTEROS_MAIN westeros-main)
-#    set(WESTEROS westeros)
-#
+install(FILES simplebuffer/westeros-simplebuffer.h
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+
+set(WESTEROS_SIMPLE_SHELL_CLIENT_SOURCES
+    simpleshell/protocol/simpleshell-protocol.c
+    simpleshell/westeros-simpleshell.cpp)
+set(WESTEROS_SIMPLE_SHELL_CLIENT_HEADERS
+    simpleshell/protocol/simpleshell-client-protocol.h
+    simpleshell/westeros-simpleshell.h)
+add_library(westeros_simpleshell_client_shared SHARED
+    ${WESTEROS_SIMPLE_SHELL_CLIENT_SOURCES}
+    ${WESTEROS_SIMPLE_SHELL_CLIENT_HEADERS})
+add_library(westeros_simpleshell_client_static STATIC
+    ${WESTEROS_SIMPLE_SHELL_CLIENT_SOURCES}
+    ${WESTEROS_SIMPLE_SHELL_CLIENT_HEADERS})
+
+set(WESTEROS_SIMPLE_SHELL_SERVER_SOURCES
+    simpleshell/protocol/simpleshell-protocol.c)
+set(WESTEROS_SIMPLE_SHELL_SERVER_HEADERS
+    simpleshell/protocol/simpleshell-server-protocol.h)
+add_library(westeros_simpleshell_server_shared SHARED
+    ${WESTEROS_SIMPLE_SHELL_SERVER_SOURCES}
+    ${WESTEROS_SIMPLE_SHELL_SERVER_HEADERS})
+add_library(westeros_simpleshell_server_static STATIC
+    ${WESTEROS_SIMPLE_SHELL_SERVER_SOURCES}
+    ${WESTEROS_SIMPLE_SHELL_SERVER_HEADERS})
+
+install(FILES simpleshell/westeros-simpleshell.h
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+
+set(WESTEROS_COMPOSITOR_SOURCES
+    westeros-compositor.cpp
+    westeros-nested.cpp
+    westeros-render.cpp
+    protocol/vpc-protocol.c
+    protocol/version4/xdg-shell-protocol.c
+    protocol/version5/xdg-shell-protocol.c)
+set(WESTEROS_COMPOSITOR_HEADERS
+    westeros-compositor.h
+    westeros-nested.h
+    westeros-render.h
+    protocol/vpc-server-protocol.h
+    protocol/version4/xdg-shell-server-protocol.h
+    protocol/version5/xdg-shell-server-protocol.h)
+add_library(westeros_compositor_shared SHARED
+    ${WESTEROS_COMPOSITOR_SOURCES}
+    ${WESTEROS_COMPOSITOR_HEADERS})
+add_library(westeros_compositor_static STATIC
+    ${WESTEROS_COMPOSITOR_SOURCES}
+    ${WESTEROS_COMPOSITOR_HEADERS})
+configure_file(westeros-compositor.pc.in ${CMAKE_CURRENT_SOURCE_DIR}/westeros-compositor.pc)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/westeros-compositor.pc
+    DESTINATION ${CMAKE_PKG_CONFIG_PATH})
+install(FILES westeros-compositor.h westeros-render.h
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+
+set(WESTEROS_RENDER_EMBEDDED_SOURCES
+    westeros-render-embedded.cpp)
+set(WESTEROS_RENDER_EMBEDDED_HEADERS
+    )
+add_library(westeros_render_embedded_shared SHARED
+    ${WESTEROS_RENDER_EMBEDDED_SOURCES}
+    ${WESTEROS_RENDER_EMBEDDED_HEADERS})
+add_library(westeros_render_embedded_static STATIC
+    ${WESTEROS_RENDER_EMBEDDED_SOURCES}
+    ${WESTEROS_RENDER_EMBEDDED_HEADERS})
+
+set(WESTEROS_RENDER_GL_SOURCES
+    westeros-render-gl.cpp)
+set(WESTEROS_RENDER_GL_HEADERS
+    )
+add_library(westeros_render_gl_shared SHARED
+    ${WESTEROS_RENDER_GL_SOURCES}
+    ${WESTEROS_RENDER_GL_HEADERS})
+add_library(westeros_render_gl_static STATIC
+    ${WESTEROS_RENDER_GL_SOURCES}
+    ${WESTEROS_RENDER_GL_HEADERS})
+install(FILES drm/westeros-gl/westeros-gl.h
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+
+set(WESTEROS_GL_SOURCES
+    drm/westeros-gl/westeros-gl.c)
+set(WESTEROS_GL_HEADERS
+    drm/westeros-gl/westeros-gl.h)
+add_library(westeros_gl_shared SHARED
+    ${WESTEROS_RENDER_GL_SOURCES}
+    ${WESTEROS_RENDER_GL_HEADERS})
+add_library(westeros_gl_static STATIC
+    ${WESTEROS_GL_SOURCES}
+    ${WESTEROS_GL_HEADERS})
+
+set(WESTEROS_SOC_SOURCES
+    drm/westeros-soc/westeros-sink-soc.c)
+set(WESTEROS_SOC_HEADERS
+    drm/westeros-soc/westeros-sink-soc.h)
+#add_library(westeros_soc_shared SHARED
+#    ${WESTEROS_RENDER_SOC_SOURCES}
+#    ${WESTEROS_RENDER_SOC_HEADERS})
+#add_library(westeros_soc_static STATIC
+#    ${WESTEROS_SOC_SOURCES}
+#    ${WESTEROS_SOC_HEADERS})
+
+set(WESTEROS_SOURCES
+    westeros-main.cpp)
+set(WESTEROS_HEADERS
+    )
+add_executable(westeros
+    ${WESTEROS_SOURCES}
+    ${WESTEROS_HEADERS})
+
+set(WESTEROS_TEST_SOURCES
+    westeros-test.cpp)
+set(WESTEROS_TEST_HEADERS
+    )
+add_executable(westeros_test
+    ${WESTEROS_TEST_SOURCES}
+    ${WESTEROS_TEST_HEADERS})
+
+set(WESTEROS_PLAYER_SOURCES
+    westeros-player.cpp)
+set(WESTEROS_PLAYER_HEADERS
+    )
+add_executable(westeros-player
+    ${WESTEROS_PLAYER_SOURCES}
+    ${WESTEROS_PLAYER_HEADERS})
+
+set(PACKAGE westeros)
+set(PACKAGE_VERSION 1.0.0)
+set(PACKAGE_TARNAME westeros)
+
+set(prefix ${CMAKE_INSTALL_PREFIX})
+set(exec_prefix ${prefix})
+set(bindir ${exec_prefix}/bin)
+set(datarootdir ${prefix}/share)
+set(datadir ${datarootdir})
+set(docdir ${datarootdir}/doc/${PACKAGE_TARNAME})
+set(includedir ${prefix}/include)
+set(libdir ${exec_prefix}/lib)
+
+set(CFLAGS -g -O2)
+set(CXXFLAGS -g -O2)
+set(DEFS -DHAVE_CONFIG_H)
+set(EGL_CFLAGS -I${includedir} -I${includedir}/libdrm)
+set(EGL_LIBS -L${libdir} -lEGL)
+set(GLESV2_CFLAGS -I${includedir})
+set(GLESV2_LIBS -L${libdir} -lGLESv2)
+set(GLIB_CFLAGS -I${includedir}/glib-2.0 -I${libdir}/glib-2.0/include -I${includedir})
+set(GLIB_LIBS -L${libdir} -lglib-2.0)
+set(GSTBASE_CFLAGS -pthread -I${includedir}/gstreamer-1.0 -I${includedir}/glib-2.0 -I${libdir}/glib-2.0/include -I${includedir})
+set(GSTBASE_LIBS -L${libdir} -lgstbase-1.0 -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0)
+set(GST_CFLAGS -pthread -I${includedir}/gstreamer-1.0 -I${includedir}/glib-2.0 -I${libdir}/glib-2.0/include -I${includedir})
+set(GST_LIBS -L${libdir} -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0)
+set(GTHREAD_CFLAGS -pthread -I${includedir}/glib-2.0 -I${libdir}/glib-2.0/include -I${includedir})
+set(GTHREAD_LIBS -L${libdir} -lgthread-2.0 -pthread -lglib-2.0)
+set(WAYLANDLIB -lwayland-server)
+set(WAYLAND_CFLAGS )
+set(WAYLAND_CLIENT_CFLAGS -I${includedir})
+set(WAYLAND_CLIENT_LIBS -L${libdir} -lwayland-client)
+set(WAYLAND_EGL_CFLAGS -I${includedir})
+set(WAYLAND_EGL_LIBS -L${libdir} -lwayland-egl -lwayland-client)
+set(WAYLAND_SERVER_CFLAGS -I${includedir})
+set(WAYLAND_SERVER_LIBS -L${libdir} -lwayland-server)
+set(XKBCOMMON_CFLAGS -I${includedir})
+set(XKBCOMMON_LIBS -L${libdir} -lxkbcommon)
+
+set(WESTEROS_LINK_LIBS
+    -lglut -lGL -lGLEW -lX11 -lEGL)
+set(WESTEROS_CXXFLAGS
+    -I./include
+    -I${CMAKE_SYSROOT}/include/wayland
+    ${WAYLAND_CLIENT_CFLAGS}
+    ${WAYLAND_SERVER_CFLAGS}
+    ${XKBCOMMON_CFLAGS}
+    -DWESTEROS_PLATFORM_EMBEDDED
+    -DWESTEROS_HAVE_WAYLAND_EGL
+    -DENABLE_SBPROTOCOL
+    -DUSE_XDG_VERSION4 -I./protocol/version4
+    -DUSE_XDG_VERSION5 -I./protocol/version5)
 #    set(WESTEROS_INCLUDE_DIRS
 #        ${WESTEROS_BUILD}/protocol
 #        ${WESTEROS_BUILD}/simpleshell/protocol
