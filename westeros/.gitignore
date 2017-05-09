@@ -1,0 +1,14 @@
+simplebuffer/protocol/simplebuffer-client-protocol.h
+simplebuffer/protocol/simplebuffer-protocol.c
+simplebuffer/protocol/simplebuffer-server-protocol.h
+simpleshell/protocol/simpleshell-client-protocol.h
+simpleshell/protocol/simpleshell-protocol.c
+simpleshell/protocol/simpleshell-server-protocol.h
+protocol/version4/xdg-shell-protocol.c
+protocol/version4/xdg-shell-server-protocol.h
+protocol/version5/xdg-shell-protocol.c
+protocol/version5/xdg-shell-server-protocol.h
+protocol/vpc-client-protocol.h
+protocol/vpc-server-protocol.h
+protocol/vpc-protocol.c
+

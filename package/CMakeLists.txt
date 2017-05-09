@@ -72,10 +72,10 @@ add_subdirectory(gstreamer)
 add_subdirectory(gst-plugins-base)
 add_subdirectory(gst-plugins-good)
 add_subdirectory(gst-plugins-bad)
-add_subdirectory(westeros-simplebuffer)
-add_subdirectory(westeros-simpleshell)
-add_subdirectory(westeros-soc)
-add_subdirectory(westeros)
+#add_subdirectory(westeros-simplebuffer)
+#add_subdirectory(westeros-simpleshell)
+#add_subdirectory(westeros-soc)
+#add_subdirectory(westeros)
 
 # libglew-dev libglu1-mesa-dev libxxf86vm-dev
 

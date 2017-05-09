@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 project(weston-build)
 
 set(CMAKE_MODULE_PATH
-        ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake CACHE STRING
-        "CMake module path." FORCE)
+    ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake CACHE STRING
+    "CMake module path." FORCE)
 
 include_directories(${CMAKE_SOURCE_DIR})
 
@@ -73,5 +73,6 @@ message(STATUS "Install directory:            " ${CMAKE_INSTALL_PREFIX})
 message(STATUS "pkg-config path:              " ${CMAKE_PKG_CONFIG_PATH})
 
 add_subdirectory(package)
-add_subdirectory(hello-wayland)
+#add_subdirectory(hello-wayland)
 #add_subdirectory(wayland-simple-egl)
+add_subdirectory(westeros)
