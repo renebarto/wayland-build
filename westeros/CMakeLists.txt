@@ -3,6 +3,16 @@ project(westeros)
 include(show_target_properties)
 include(setup_target_properties_library)
 
+option(USE_GLEW "Using GLEW" OFF)
+option(HAVE_WAYLAND_EGL "Have Wayland EGL support, will otherwise support EGL from westeros" ON)
+option(ENABLE_WESTEROS_SBPROTOCOL "Enable simple buffer procotol (needed for drm)" ON)
+option(ENABLE_XDG_V4 "Support desktop shell V4" OFF)
+option(ENABLE_XDG_V5 "Support desktop shell V5" ON)
+option(ENABLE_WESTEROS_RENDERERGL "Support GL rendering" ON)
+option(ENABLE_WESTEROS_APP "Build main westeros application" ON)
+option(ENABLE_WESTEROS_TEST "Build westeros test application" ON)
+option(ENABLE_WESTEROS_PLAYER "Build westeros player application" ON)
+
 set(WESTEROS_VERSION 87bc367344f7aab820b74e8fd01f4cf104807ab8)
 set(WESTEROS_REQUIRED_VERSION 1.0.0)
 set(WESTEROS_NAME ${PROJECT_NAME})
@@ -51,7 +61,7 @@ set(STANDARD_CXX_FLAGS -g -O2)
 set(STANDARD_C_FLAGS -g -O2)
 set(STANDARD_DEFINES HAVE_CONFIG_H _LARGEFILE_SOURCE _LARGEFILE64_SOURCE _FILE_OFFSET_BITS=64)
 set(STANDARD_INCLUDE_DIRS . ${includedir} /usr/include /usr/local/include /usr/include/x86_64-linux-gnu)
-set(STANDARD_LIB_DIRS . ${libdir} /usr/lib /usr/local/lib)
+set(STANDARD_LIB_DIRS . ${libdir} ${LIBRARY_OUTPUT_DIRECTORY} ${ARCHIVE_OUTPUT_DIRECTORY} /usr/lib /usr/local/lib)
 
 ## Protocols
 
@@ -247,6 +257,7 @@ target_include_directories(westeros_simplebuffer_client_shared PRIVATE ${WESTERO
 target_include_directories(westeros_simplebuffer_client_shared PUBLIC ${WESTEROS_SIMPLE_BUFFER_CLIENT_INCLUDE_DIRS_PUBLIC})
 target_compile_definitions(westeros_simplebuffer_client_shared PRIVATE ${WESTEROS_SIMPLE_BUFFER_CLIENT_DEFINES})
 target_compile_definitions(westeros_simplebuffer_client_shared PUBLIC ${WESTEROS_SIMPLE_BUFFER_CLIENT_DEFINES_PUBLIC})
+add_dependencies(westeros_simplebuffer_client_shared westeros-simplebuffer-protocol)
 setup_target_properties_library(westeros_simplebuffer_client_shared)
 set_target_properties(westeros_simplebuffer_client_shared PROPERTIES SOVERSION 1)
 set_target_properties(westeros_simplebuffer_client_shared PROPERTIES VERSION ${PACKAGE_VERSION})
@@ -261,6 +272,7 @@ target_include_directories(westeros_simplebuffer_client_static PRIVATE ${WESTERO
 target_include_directories(westeros_simplebuffer_client_static PUBLIC ${WESTEROS_SIMPLE_BUFFER_CLIENT_INCLUDE_DIRS_PUBLIC})
 target_compile_definitions(westeros_simplebuffer_client_static PRIVATE ${WESTEROS_SIMPLE_BUFFER_CLIENT_DEFINES})
 target_compile_definitions(westeros_simplebuffer_client_static PUBLIC ${WESTEROS_SIMPLE_BUFFER_CLIENT_DEFINES_PUBLIC})
+add_dependencies(westeros_simplebuffer_client_static westeros-simplebuffer-protocol)
 setup_target_properties_library(westeros_simplebuffer_client_static)
 set_target_properties(westeros_simplebuffer_client_static PROPERTIES OUTPUT_NAME westeros_simplebuffer_client)
 show_target_properties(westeros_simplebuffer_client_static)
@@ -288,6 +300,7 @@ target_include_directories(westeros_simplebuffer_server_shared PRIVATE ${WESTERO
 target_include_directories(westeros_simplebuffer_server_shared PUBLIC ${WESTEROS_SIMPLE_BUFFER_SERVER_INCLUDE_DIRS_PUBLIC})
 target_compile_definitions(westeros_simplebuffer_server_shared PRIVATE ${WESTEROS_SIMPLE_BUFFER_SERVER_DEFINES})
 target_compile_definitions(westeros_simplebuffer_server_shared PUBLIC ${WESTEROS_SIMPLE_BUFFER_SERVER_DEFINES_PUBLIC})
+add_dependencies(westeros_simplebuffer_server_shared westeros-simplebuffer-protocol)
 setup_target_properties_library(westeros_simplebuffer_server_shared)
 set_target_properties(westeros_simplebuffer_server_shared PROPERTIES SOVERSION 1)
 set_target_properties(westeros_simplebuffer_server_shared PROPERTIES VERSION ${PACKAGE_VERSION})
@@ -302,6 +315,7 @@ target_include_directories(westeros_simplebuffer_server_static PRIVATE ${WESTERO
 target_include_directories(westeros_simplebuffer_server_static PUBLIC ${WESTEROS_SIMPLE_BUFFER_SERVER_INCLUDE_DIRS_PUBLIC})
 target_compile_definitions(westeros_simplebuffer_server_static PRIVATE ${WESTEROS_SIMPLE_BUFFER_SERVER_DEFINES})
 target_compile_definitions(westeros_simplebuffer_server_static PUBLIC ${WESTEROS_SIMPLE_BUFFER_SERVER_DEFINES_PUBLIC})
+add_dependencies(westeros_simplebuffer_server_static westeros-simplebuffer-protocol)
 setup_target_properties_library(westeros_simplebuffer_server_static)
 set_target_properties(westeros_simplebuffer_server_static PROPERTIES OUTPUT_NAME westeros_simplebuffer_server)
 show_target_properties(westeros_simplebuffer_server_static)
@@ -330,6 +344,7 @@ target_include_directories(westeros_simpleshell_client_shared PRIVATE ${WESTEROS
 target_include_directories(westeros_simpleshell_client_shared PUBLIC ${WESTEROS_SIMPLE_SHELL_CLIENT_INCLUDE_DIRS_PUBLIC})
 target_compile_definitions(westeros_simpleshell_client_shared PRIVATE ${WESTEROS_SIMPLE_SHELL_CLIENT_DEFINES})
 target_compile_definitions(westeros_simpleshell_client_shared PUBLIC ${WESTEROS_SIMPLE_SHELL_CLIENT_DEFINES_PUBLIC})
+add_dependencies(westeros_simpleshell_client_shared westeros-simpleshell-protocol)
 setup_target_properties_library(westeros_simpleshell_client_shared)
 set_target_properties(westeros_simpleshell_client_shared PROPERTIES SOVERSION 1)
 set_target_properties(westeros_simpleshell_client_shared PROPERTIES VERSION ${PACKAGE_VERSION})
@@ -344,6 +359,7 @@ target_include_directories(westeros_simpleshell_client_static PRIVATE ${WESTEROS
 target_include_directories(westeros_simpleshell_client_static PUBLIC ${WESTEROS_SIMPLE_SHELL_CLIENT_INCLUDE_DIRS_PUBLIC})
 target_compile_definitions(westeros_simpleshell_client_static PRIVATE ${WESTEROS_SIMPLE_SHELL_CLIENT_DEFINES})
 target_compile_definitions(westeros_simpleshell_client_static PUBLIC ${WESTEROS_SIMPLE_SHELL_CLIENT_DEFINES_PUBLIC})
+add_dependencies(westeros_simpleshell_client_static westeros-simpleshell-protocol)
 setup_target_properties_library(westeros_simpleshell_client_static)
 set_target_properties(westeros_simpleshell_client_static PROPERTIES OUTPUT_NAME westeros_simpleshell_client)
 show_target_properties(westeros_simpleshell_client_static)
@@ -371,6 +387,7 @@ target_include_directories(westeros_simpleshell_server_shared PRIVATE ${WESTEROS
 target_include_directories(westeros_simpleshell_server_shared PUBLIC ${WESTEROS_SIMPLE_SHELL_SERVER_INCLUDE_DIRS_PUBLIC})
 target_compile_definitions(westeros_simpleshell_server_shared PRIVATE ${WESTEROS_SIMPLE_SHELL_SERVER_DEFINES})
 target_compile_definitions(westeros_simpleshell_server_shared PUBLIC ${WESTEROS_SIMPLE_SHELL_SERVER_DEFINES_PUBLIC})
+add_dependencies(westeros_simpleshell_server_shared westeros-simpleshell-protocol)
 setup_target_properties_library(westeros_simpleshell_server_shared)
 set_target_properties(westeros_simpleshell_server_shared PROPERTIES SOVERSION 1)
 set_target_properties(westeros_simpleshell_server_shared PROPERTIES VERSION ${PACKAGE_VERSION})
@@ -385,6 +402,7 @@ target_include_directories(westeros_simpleshell_server_static PRIVATE ${WESTEROS
 target_include_directories(westeros_simpleshell_server_static PUBLIC ${WESTEROS_SIMPLE_SHELL_SERVER_INCLUDE_DIRS_PUBLIC})
 target_compile_definitions(westeros_simpleshell_server_static PRIVATE ${WESTEROS_SIMPLE_SHELL_SERVER_DEFINES})
 target_compile_definitions(westeros_simpleshell_server_static PUBLIC ${WESTEROS_SIMPLE_SHELL_SERVER_DEFINES_PUBLIC})
+add_dependencies(westeros_simpleshell_server_static westeros-simpleshell-protocol)
 setup_target_properties_library(westeros_simpleshell_server_static)
 set_target_properties(westeros_simpleshell_server_static PROPERTIES OUTPUT_NAME westeros_simpleshell_server)
 show_target_properties(westeros_simpleshell_server_static)
@@ -394,19 +412,31 @@ install(FILES simpleshell/westeros-simpleshell.h
 
 ## compositor
 
-option(USE_GLEW OFF)
-option(HAVE_WAYLAND_EGL ON)
-option(ENABLE_WESTEROS_SBPROTOCOL ON)
-option(ENABLE_XDG_V4 ON)
-option(ENABLE_XDG_V5 ON)
-
 set(WESTEROS_COMPOSITOR_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/simpleshell/protocol/simpleshell-protocol.c)
+    ${CMAKE_CURRENT_SOURCE_DIR}/westeros-compositor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/westeros-nested.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/westeros-render.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/protocol/vpc-protocol.c)
 set(WESTEROS_COMPOSITOR_HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/westeros-compositor.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/westeros-render.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/protocol/vpc-client-protocol.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/simpleshell/westeros-simpleshell.h
     ${CMAKE_CURRENT_SOURCE_DIR}/simpleshell/protocol/simpleshell-client-protocol.h)
 set(WESTEROS_COMPOSITOR_LIB_DIRS ${STANDARD_LIB_DIRS})
-set(WESTEROS_COMPOSITOR_LIBS wayland-client)
-set(WESTEROS_COMPOSITOR_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/simpleshell/protocol)
+set(WESTEROS_COMPOSITOR_LIBS
+    wayland-client
+    wayland-server
+    xkbcommon
+    westeros_simpleshell_server_shared
+    pthread
+    dl)
+set(WESTEROS_COMPOSITOR_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/simplebuffer
+    ${CMAKE_CURRENT_SOURCE_DIR}/simplebuffer/protocol
+    ${CMAKE_CURRENT_SOURCE_DIR}/simpleshell
+    ${CMAKE_CURRENT_SOURCE_DIR}/simpleshell/protocol
+    ${CMAKE_CURRENT_SOURCE_DIR}/protocol)
 set(WESTEROS_COMPOSITOR_INCLUDE_DIRS_PUBLIC ${STANDARD_INCLUDE_DIRS})
 set(WESTEROS_COMPOSITOR_DEFINES )
 set(WESTEROS_COMPOSITOR_DEFINES_PUBLIC ${STANDARD_DEFINES})
@@ -422,18 +452,25 @@ else()
 endif()
 if (ENABLE_WESTEROS_SBPROTOCOL)
     set(WESTEROS_COMPOSITOR_DEFINES ${WESTEROS_COMPOSITOR_DEFINES} ENABLE_SBPROTOCOL)
+    set(WESTEROS_RENDER_EMBEDDED_HEADERS ${WESTEROS_RENDER_EMBEDDED_HEADERS}
+        ${CMAKE_CURRENT_SOURCE_DIR}/simplebuffer/westeros-simplebuffer.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/simplebuffer/protocol/simplebuffer-client-protocol.h)
+    set(WESTEROS_COMPOSITOR_LIBS ${WESTEROS_COMPOSITOR_LIBS} westeros_simplebuffer_server_shared)
 endif()
 
 if (ENABLE_XDG_V4)
     set(WESTEROS_COMPOSITOR_DEFINES ${WESTEROS_COMPOSITOR_DEFINES} USE_XDG_VERSION4)
-     -I$(srcdir)/protocol/version4
+    set(WESTEROS_COMPOSITOR_SOURCES ${WESTEROS_COMPOSITOR_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/protocol/version4/xdg-shell-protocol.c)
+    set(WESTEROS_COMPOSITOR_HEADERS ${WESTEROS_COMPOSITOR_HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/protocol/version4/xdg-shell-server-protocol.h)
+    set(WESTEROS_COMPOSITOR_INCLUDE_DIRS ${WESTEROS_COMPOSITOR_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/protocol/version4)
 endif()
 
 if (ENABLE_XDG_V5)
     set(WESTEROS_COMPOSITOR_DEFINES ${WESTEROS_COMPOSITOR_DEFINES} USE_XDG_VERSION5)
- -I$(srcdir)/protocol/version5
+    set(WESTEROS_COMPOSITOR_SOURCES ${WESTEROS_COMPOSITOR_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/protocol/version5/xdg-shell-protocol.c)
+    set(WESTEROS_COMPOSITOR_HEADERS ${WESTEROS_COMPOSITOR_HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/protocol/version5/xdg-shell-server-protocol.h)
+    set(WESTEROS_COMPOSITOR_INCLUDE_DIRS ${WESTEROS_COMPOSITOR_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/protocol/version5)
 endif()
-
 
 add_library(westeros_compositor_shared SHARED
     ${WESTEROS_COMPOSITOR_SOURCES}
@@ -443,6 +480,17 @@ target_include_directories(westeros_compositor_shared PRIVATE ${WESTEROS_COMPOSI
 target_include_directories(westeros_compositor_shared PUBLIC ${WESTEROS_COMPOSITOR_INCLUDE_DIRS_PUBLIC})
 target_compile_definitions(westeros_compositor_shared PRIVATE ${WESTEROS_COMPOSITOR_DEFINES})
 target_compile_definitions(westeros_compositor_shared PUBLIC ${WESTEROS_COMPOSITOR_DEFINES_PUBLIC})
+if (ENABLE_WESTEROS_SBPROTOCOL)
+    add_dependencies(westeros_compositor_shared westeros_simplebuffer_server_shared)
+endif()
+if (ENABLE_XDG_V4)
+    add_dependencies(westeros_compositor_shared westeros-xdgshell-v4-protocol)
+endif()
+
+if (ENABLE_XDG_V5)
+    add_dependencies(westeros_compositor_shared westeros-xdgshell-v5-protocol)
+endif()
+add_dependencies(westeros_compositor_shared westeros-vpc-protocol westeros_simpleshell_server_shared)
 setup_target_properties_library(westeros_compositor_shared)
 set_target_properties(westeros_compositor_shared PROPERTIES SOVERSION 1)
 set_target_properties(westeros_compositor_shared PROPERTIES VERSION ${PACKAGE_VERSION})
@@ -457,71 +505,233 @@ target_include_directories(westeros_compositor_static PRIVATE ${WESTEROS_COMPOSI
 target_include_directories(westeros_compositor_static PUBLIC ${WESTEROS_COMPOSITOR_INCLUDE_DIRS_PUBLIC})
 target_compile_definitions(westeros_compositor_static PRIVATE ${WESTEROS_COMPOSITOR_DEFINES})
 target_compile_definitions(westeros_compositor_static PUBLIC ${WESTEROS_COMPOSITOR_DEFINES_PUBLIC})
+if (ENABLE_WESTEROS_SBPROTOCOL)
+    add_dependencies(westeros_compositor_static westeros_simplebuffer_server_static)
+endif()
+if (ENABLE_XDG_V4)
+    add_dependencies(westeros_compositor_static westeros-xdgshell-v4-protocol)
+endif()
+
+if (ENABLE_XDG_V5)
+    add_dependencies(westeros_compositor_static westeros-xdgshell-v5-protocol)
+endif()
+add_dependencies(westeros_compositor_static westeros-vpc-protocol westeros_simpleshell_server_static)
 setup_target_properties_library(westeros_compositor_static)
 set_target_properties(westeros_compositor_static PROPERTIES OUTPUT_NAME westeros_compositor)
 show_target_properties(westeros_compositor_static)
 
-
-set(WESTEROS_COMPOSITOR_SOURCES
-    westeros-compositor.cpp
-    westeros-nested.cpp
-    westeros-render.cpp
-    protocol/vpc-protocol.c
-    protocol/version4/xdg-shell-protocol.c
-    protocol/version5/xdg-shell-protocol.c)
-set(WESTEROS_COMPOSITOR_HEADERS
-    westeros-compositor.h
-    westeros-nested.h
-    westeros-render.h
-    protocol/vpc-server-protocol.h
-    protocol/version4/xdg-shell-server-protocol.h
-    protocol/version5/xdg-shell-server-protocol.h)
-#add_library(westeros_compositor_shared SHARED
-#    ${WESTEROS_COMPOSITOR_SOURCES}
-#    ${WESTEROS_COMPOSITOR_HEADERS})
-#add_library(westeros_compositor_static STATIC
-#    ${WESTEROS_COMPOSITOR_SOURCES}
-#    ${WESTEROS_COMPOSITOR_HEADERS})
 configure_file(westeros-compositor.pc.in ${CMAKE_CURRENT_SOURCE_DIR}/westeros-compositor.pc)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/westeros-compositor.pc
     DESTINATION ${CMAKE_PKG_CONFIG_PATH})
 install(FILES westeros-compositor.h westeros-render.h
     DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 
+## westeros_gl
+
+if (NOT USE_GLEW)
+    set(WESTEROS_GL_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/drm/westeros-gl/westeros-gl.c)
+    set(WESTEROS_GL_HEADERS
+        ${CMAKE_CURRENT_SOURCE_DIR}/drm/westeros-gl/westeros-gl.h)
+    set(WESTEROS_GL_LIB_DIRS ${STANDARD_LIB_DIRS})
+    set(WESTEROS_GL_LIBS
+        drm
+        gbm)
+    set(WESTEROS_GL_INCLUDE_DIRS
+        ${includedir}/libdrm)
+    set(WESTEROS_GL_INCLUDE_DIRS_PUBLIC ${STANDARD_INCLUDE_DIRS})
+    set(WESTEROS_GL_DEFINES _GNU_SOURCE)
+    set(WESTEROS_GL_DEFINES_PUBLIC ${STANDARD_DEFINES})
+
+    add_library(westeros_gl_shared SHARED
+        ${WESTEROS_GL_SOURCES}
+        ${WESTEROS_GL_HEADERS})
+    target_link_libraries(westeros_gl_shared ${WESTEROS_GL_LIBS})
+    target_include_directories(westeros_gl_shared PRIVATE ${WESTEROS_GL_INCLUDE_DIRS})
+    target_include_directories(westeros_gl_shared PUBLIC ${WESTEROS_GL_INCLUDE_DIRS_PUBLIC})
+    target_compile_definitions(westeros_gl_shared PRIVATE ${WESTEROS_GL_DEFINES})
+    target_compile_definitions(westeros_gl_shared PUBLIC ${WESTEROS_GL_DEFINES_PUBLIC})
+    setup_target_properties_library(westeros_gl_shared)
+    set_target_properties(westeros_gl_shared PROPERTIES SOVERSION 1)
+    set_target_properties(westeros_gl_shared PROPERTIES VERSION ${PACKAGE_VERSION})
+    set_target_properties(westeros_gl_shared PROPERTIES OUTPUT_NAME westeros_gl)
+    show_target_properties(westeros_gl_shared)
+
+    add_library(westeros_gl_static STATIC
+        ${WESTEROS_GL_SOURCES}
+        ${WESTEROS_GL_HEADERS})
+    target_link_libraries(westeros_gl_static ${WESTEROS_GL_LIBS})
+    target_include_directories(westeros_gl_static PRIVATE ${WESTEROS_GL_INCLUDE_DIRS})
+    target_include_directories(westeros_gl_static PUBLIC ${WESTEROS_GL_INCLUDE_DIRS_PUBLIC})
+    target_compile_definitions(westeros_gl_static PRIVATE ${WESTEROS_GL_DEFINES})
+    target_compile_definitions(westeros_gl_static PUBLIC ${WESTEROS_GL_DEFINES_PUBLIC})
+    setup_target_properties_library(westeros_gl_static)
+    set_target_properties(westeros_gl_static PROPERTIES OUTPUT_NAME westeros_gl)
+    show_target_properties(westeros_gl_static)
+    install(FILES drm/westeros-gl/westeros-gl.h
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+endif()
+
+## render-embedded
+
 set(WESTEROS_RENDER_EMBEDDED_SOURCES
-    westeros-render-embedded.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/westeros-render-embedded.cpp)
 set(WESTEROS_RENDER_EMBEDDED_HEADERS
-    )
-#add_library(westeros_render_embedded_shared SHARED
-#    ${WESTEROS_RENDER_EMBEDDED_SOURCES}
-#    ${WESTEROS_RENDER_EMBEDDED_HEADERS})
-#add_library(westeros_render_embedded_static STATIC
-#    ${WESTEROS_RENDER_EMBEDDED_SOURCES}
-#    ${WESTEROS_RENDER_EMBEDDED_HEADERS})
+    ${CMAKE_CURRENT_SOURCE_DIR}/westeros-render.h)
+set(WESTEROS_RENDER_EMBEDDED_LIB_DIRS ${STANDARD_LIB_DIRS})
+set(WESTEROS_RENDER_EMBEDDED_LIBS
+    wayland-client
+    wayland-server
+    xkbcommon
+    westeros_simpleshell_server_shared
+    pthread
+    dl)
+set(WESTEROS_RENDER_EMBEDDED_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/simplebuffer
+    ${CMAKE_CURRENT_SOURCE_DIR}/simplebuffer/protocol)
+set(WESTEROS_RENDER_EMBEDDED_INCLUDE_DIRS_PUBLIC ${STANDARD_INCLUDE_DIRS})
+set(WESTEROS_RENDER_EMBEDDED_DEFINES )
+set(WESTEROS_RENDER_EMBEDDED_DEFINES_PUBLIC ${STANDARD_DEFINES})
 
-set(WESTEROS_RENDER_GL_SOURCES
-    westeros-render-gl.cpp)
-set(WESTEROS_RENDER_GL_HEADERS
-    )
-#add_library(westeros_render_gl_shared SHARED
-#    ${WESTEROS_RENDER_GL_SOURCES}
-#    ${WESTEROS_RENDER_GL_HEADERS})
-#add_library(westeros_render_gl_static STATIC
-#    ${WESTEROS_RENDER_GL_SOURCES}
-#    ${WESTEROS_RENDER_GL_HEADERS})
-install(FILES drm/westeros-gl/westeros-gl.h
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+if (USE_GLEW)
+    set(WESTEROS_RENDER_EMBEDDED_LIBS ${WESTEROS_RENDER_EMBEDDED_LIBS} EGL glut GL GLEW wayland-server)
+else()
+    set(WESTEROS_RENDER_EMBEDDED_LIBS ${WESTEROS_RENDER_EMBEDDED_LIBS} EGL westeros_gl_shared wayland-server)
+    set(WESTEROS_RENDER_EMBEDDED_DEFINES ${WESTEROS_RENDER_EMBEDDED_DEFINES} WESTEROS_PLATFORM_EMBEDDED)
+    set(WESTEROS_RENDER_EMBEDDED_HEADERS ${WESTEROS_RENDER_EMBEDDED_HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/drm/westeros-gl/westeros-gl.h)
+    set(WESTEROS_RENDER_EMBEDDED_INCLUDE_DIRS_PUBLIC ${WESTEROS_RENDER_EMBEDDED_INCLUDE_DIRS_PUBLIC} ${CMAKE_CURRENT_SOURCE_DIR}/drm/westeros-gl)
+endif()
+if (NOT USE_GLEW AND HAVE_WAYLAND_EGL)
+    set(WESTEROS_RENDER_EMBEDDED_DEFINES ${WESTEROS_RENDER_EMBEDDED_DEFINES} WESTEROS_HAVE_WAYLAND_EGL)
+    set(WESTEROS_RENDER_EMBEDDED_LIBS ${WESTEROS_RENDER_EMBEDDED_LIBS} wayland-egl GLESv2)
+else()
+    set(WESTEROS_RENDER_EMBEDDED_LIBS ${WESTEROS_RENDER_EMBEDDED_LIBS} westeros_egl)
+endif()
+if (ENABLE_WESTEROS_SBPROTOCOL)
+    set(WESTEROS_RENDER_EMBEDDED_DEFINES ${WESTEROS_RENDER_EMBEDDED_DEFINES} ENABLE_SBPROTOCOL)
+    set(WESTEROS_RENDER_EMBEDDED_HEADERS ${WESTEROS_RENDER_EMBEDDED_HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/simplebuffer/westeros-simplebuffer)
+    set(WESTEROS_RENDER_EMBEDDED_LIBS ${WESTEROS_RENDER_EMBEDDED_LIBS} westeros_simplebuffer_server_shared)
+endif()
 
-set(WESTEROS_GL_SOURCES
-    drm/westeros-gl/westeros-gl.c)
-set(WESTEROS_GL_HEADERS
-    drm/westeros-gl/westeros-gl.h)
-#add_library(westeros_gl_shared SHARED
-#    ${WESTEROS_RENDER_GL_SOURCES}
-#    ${WESTEROS_RENDER_GL_HEADERS})
-#add_library(westeros_gl_static STATIC
-#    ${WESTEROS_GL_SOURCES}
-#    ${WESTEROS_GL_HEADERS})
+add_library(westeros_render_embedded_shared SHARED
+    ${WESTEROS_RENDER_EMBEDDED_SOURCES}
+    ${WESTEROS_RENDER_EMBEDDED_HEADERS})
+target_link_libraries(westeros_render_embedded_shared ${WESTEROS_RENDER_EMBEDDED_LIBS})
+target_include_directories(westeros_render_embedded_shared PRIVATE ${WESTEROS_RENDER_EMBEDDED_INCLUDE_DIRS})
+target_include_directories(westeros_render_embedded_shared PUBLIC ${WESTEROS_RENDER_EMBEDDED_INCLUDE_DIRS_PUBLIC})
+target_compile_definitions(westeros_render_embedded_shared PRIVATE ${WESTEROS_RENDER_EMBEDDED_DEFINES})
+target_compile_definitions(westeros_render_embedded_shared PUBLIC ${WESTEROS_RENDER_EMBEDDED_DEFINES_PUBLIC})
+if (NOT USE_GLEW)
+    add_dependencies(westeros_render_embedded_shared westeros_gl_shared)
+endif()
+if (ENABLE_WESTEROS_SBPROTOCOL)
+    add_dependencies(westeros_render_embedded_shared westeros_simplebuffer_server_shared)
+endif()
+setup_target_properties_library(westeros_render_embedded_shared)
+set_target_properties(westeros_render_embedded_shared PROPERTIES SOVERSION 1)
+set_target_properties(westeros_render_embedded_shared PROPERTIES VERSION ${PACKAGE_VERSION})
+set_target_properties(westeros_render_embedded_shared PROPERTIES OUTPUT_NAME westeros_render_embedded)
+show_target_properties(westeros_render_embedded_shared)
+
+add_library(westeros_render_embedded_static STATIC
+    ${WESTEROS_RENDER_EMBEDDED_SOURCES}
+    ${WESTEROS_RENDER_EMBEDDED_HEADERS})
+target_link_libraries(westeros_render_embedded_static ${WESTEROS_RENDER_EMBEDDED_LIBS})
+target_include_directories(westeros_render_embedded_static PRIVATE ${WESTEROS_RENDER_EMBEDDED_INCLUDE_DIRS})
+target_include_directories(westeros_render_embedded_static PUBLIC ${WESTEROS_RENDER_EMBEDDED_INCLUDE_DIRS_PUBLIC})
+target_compile_definitions(westeros_render_embedded_static PRIVATE ${WESTEROS_RENDER_EMBEDDED_DEFINES})
+target_compile_definitions(westeros_render_embedded_static PUBLIC ${WESTEROS_RENDER_EMBEDDED_DEFINES_PUBLIC})
+if (NOT USE_GLEW)
+    add_dependencies(westeros_render_embedded_static westeros_gl_static)
+endif()
+if (ENABLE_WESTEROS_SBPROTOCOL)
+    add_dependencies(westeros_render_embedded_static westeros_simplebuffer_server_static)
+endif()
+setup_target_properties_library(westeros_render_embedded_static)
+set_target_properties(westeros_render_embedded_static PROPERTIES OUTPUT_NAME westeros_render_embedded)
+show_target_properties(westeros_render_embedded_static)
+
+## render-gl
+
+IF (ENABLE_WESTEROS_RENDERERGL)
+    set(WESTEROS_RENDER_GL_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/westeros-render-gl.cpp)
+    set(WESTEROS_RENDER_GL_HEADERS
+        ${CMAKE_CURRENT_SOURCE_DIR}/westeros-render.h)
+    set(WESTEROS_RENDER_GL_LIB_DIRS ${STANDARD_LIB_DIRS})
+    set(WESTEROS_RENDER_GL_LIBS
+        wayland-client
+        wayland-server
+        xkbcommon
+        westeros_simpleshell_server_shared
+        pthread
+        dl)
+    set(WESTEROS_RENDER_GL_INCLUDE_DIRS
+        ${CMAKE_CURRENT_SOURCE_DIR}/simplebuffer
+        ${CMAKE_CURRENT_SOURCE_DIR}/simplebuffer/protocol)
+    set(WESTEROS_RENDER_GL_INCLUDE_DIRS_PUBLIC ${STANDARD_INCLUDE_DIRS})
+    set(WESTEROS_RENDER_GL_DEFINES )
+    set(WESTEROS_RENDER_GL_DEFINES_PUBLIC ${STANDARD_DEFINES})
+
+    if (USE_GLEW)
+        set(WESTEROS_RENDER_GL_LIBS ${WESTEROS_RENDER_GL_LIBS} EGL GL GLEW wayland-server)
+    else()
+        set(WESTEROS_RENDER_GL_LIBS ${WESTEROS_RENDER_GL_LIBS} EGL westeros_gl_shared wayland-server)
+        set(WESTEROS_RENDER_GL_DEFINES ${WESTEROS_RENDER_GL_DEFINES} WESTEROS_PLATFORM_EMBEDDED)
+        set(WESTEROS_RENDER_GL_HEADERS ${WESTEROS_RENDER_GL_HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/drm/westeros-gl/westeros-gl.h)
+        set(WESTEROS_RENDER_GL_INCLUDE_DIRS ${WESTEROS_RENDER_GL_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/drm/westeros-gl)
+    endif()
+    if (HAVE_WAYLAND_EGL)
+        set(WESTEROS_RENDER_GL_DEFINES ${WESTEROS_RENDER_GL_DEFINES} WESTEROS_HAVE_WAYLAND_EGL)
+        set(WESTEROS_RENDER_GL_LIBS ${WESTEROS_RENDER_GL_LIBS} wayland-egl GLESv2)
+    else()
+        set(WESTEROS_RENDER_GL_LIBS ${WESTEROS_RENDER_GL_LIBS} westeros_egl)
+    endif()
+    if (ENABLE_WESTEROS_SBPROTOCOL)
+        set(WESTEROS_RENDER_GL_DEFINES ${WESTEROS_RENDER_GL_DEFINES} ENABLE_SBPROTOCOL)
+        set(WESTEROS_RENDER_GL_HEADERS ${WESTEROS_RENDER_GL_HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/simplebuffer/westeros-simplebuffer)
+        set(WESTEROS_RENDER_GL_LIBS ${WESTEROS_RENDER_GL_LIBS} westeros_simplebuffer_server_shared)
+    endif()
+
+    add_library(westeros_render_gl_shared SHARED
+        ${WESTEROS_RENDER_GL_SOURCES}
+        ${WESTEROS_RENDER_GL_HEADERS})
+    target_link_libraries(westeros_render_gl_shared ${WESTEROS_RENDER_GL_LIBS})
+    target_include_directories(westeros_render_gl_shared PRIVATE ${WESTEROS_RENDER_GL_INCLUDE_DIRS})
+    target_include_directories(westeros_render_gl_shared PUBLIC ${WESTEROS_RENDER_GL_INCLUDE_DIRS_PUBLIC})
+    target_compile_definitions(westeros_render_gl_shared PRIVATE ${WESTEROS_RENDER_GL_DEFINES})
+    target_compile_definitions(westeros_render_gl_shared PUBLIC ${WESTEROS_RENDER_GL_DEFINES_PUBLIC})
+    if (NOT USE_GLEW)
+        add_dependencies(westeros_render_gl_shared westeros_gl_shared)
+    endif()
+    if (ENABLE_WESTEROS_SBPROTOCOL)
+        add_dependencies(westeros_render_gl_shared westeros_simplebuffer_server_shared)
+    endif()
+    setup_target_properties_library(westeros_render_gl_shared)
+    set_target_properties(westeros_render_gl_shared PROPERTIES SOVERSION 1)
+    set_target_properties(westeros_render_gl_shared PROPERTIES VERSION ${PACKAGE_VERSION})
+    set_target_properties(westeros_render_gl_shared PROPERTIES OUTPUT_NAME westeros_render_gl)
+    show_target_properties(westeros_render_gl_shared)
+
+    add_library(westeros_render_gl_static STATIC
+        ${WESTEROS_RENDER_GL_SOURCES}
+        ${WESTEROS_RENDER_GL_HEADERS})
+    target_link_libraries(westeros_render_gl_static ${WESTEROS_RENDER_GL_LIBS})
+    target_include_directories(westeros_render_gl_static PRIVATE ${WESTEROS_RENDER_GL_INCLUDE_DIRS})
+    target_include_directories(westeros_render_gl_static PUBLIC ${WESTEROS_RENDER_GL_INCLUDE_DIRS_PUBLIC})
+    target_compile_definitions(westeros_render_gl_static PRIVATE ${WESTEROS_RENDER_GL_DEFINES})
+    target_compile_definitions(westeros_render_gl_static PUBLIC ${WESTEROS_RENDER_GL_DEFINES_PUBLIC})
+    if (NOT USE_GLEW)
+        add_dependencies(westeros_render_gl_static westeros_gl_static)
+    endif()
+    if (ENABLE_WESTEROS_SBPROTOCOL)
+        add_dependencies(westeros_render_gl_static westeros_simplebuffer_server_static)
+    endif()
+    setup_target_properties_library(westeros_render_gl_static)
+    set_target_properties(westeros_render_gl_static PROPERTIES OUTPUT_NAME westeros_render_gl)
+    show_target_properties(westeros_render_gl_static)
+endif()
+
 
 set(WESTEROS_SOC_SOURCES
     drm/westeros-soc/westeros-sink-soc.c)
