@@ -52,7 +52,7 @@
 
 #include <vector>
 
-//#define WST_DEBUG
+#define WST_DEBUG
 
 #ifdef WST_DEBUG
 #define INT_TRACE(FORMAT,...) printf( FORMAT "\n", __VA_ARGS__)
@@ -481,13 +481,16 @@ static WstRendererEMB* wstRendererEMBCreate( WstRenderer *renderer )
       rendererEMB->deadTextures= std::vector<GLuint>();
       
       #if defined (WESTEROS_PLATFORM_EMBEDDED)
+      WST_TRACE( "Calling WstGLInit");
       rendererEMB->glCtx= WstGLInit();
       if ( !rendererEMB->glCtx )
       {
          free( rendererEMB );
          rendererEMB= 0;
+         WST_TRACE( "WstGLInit failed");
          goto exit;
       }
+      WST_TRACE( "WstGLInit success\n");
       #endif
 
       rendererEMB->eglCreateImageKHR= (PFNEGLCREATEIMAGEKHRPROC)eglGetProcAddress("eglCreateImageKHR");
@@ -1855,7 +1858,8 @@ int renderer_init( WstRenderer *renderer, int argc, char **argv )
 {
    int rc= 0;
    WstRendererEMB *rendererEMB= 0;
-   
+
+   printf("Creating embedded renderer\n");
    rendererEMB= wstRendererEMBCreate( renderer );
    if ( rendererEMB )
    {

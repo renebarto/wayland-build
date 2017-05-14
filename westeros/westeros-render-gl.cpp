@@ -51,7 +51,7 @@
 
 #include <vector>
 
-//#define WST_DEBUG
+#define WST_DEBUG
 
 #ifdef WST_DEBUG
 #define INT_TRACE(FORMAT,...) printf( FORMAT "\n", __VA_ARGS__)

@@ -2185,18 +2185,21 @@ int main( int argc, char** argv)
          }
       
          g_running= true;
+         printf("Starting compositor\n");
+
          if ( !(error= !WstCompositorStart( wctx )) )
          {
-	         sigint.sa_handler = signalHandler;
-	         sigemptyset(&sigint.sa_mask);
-	         sigint.sa_flags = SA_RESETHAND;
-	         sigaction(SIGINT, &sigint, NULL);
+             sigint.sa_handler = signalHandler;
+             sigemptyset(&sigint.sa_mask);
+             sigint.sa_flags = SA_RESETHAND;
+             sigaction(SIGINT, &sigint, NULL);
 
             while( g_running )
             {
                usleep( 10000 );
             }
             
+            printf("Stopping compositor\n");
             WstCompositorStop( wctx );
          }
       }

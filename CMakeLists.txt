@@ -72,6 +72,8 @@ message(STATUS "System root directory:        " ${CMAKE_SYSROOT})
 message(STATUS "Install directory:            " ${CMAKE_INSTALL_PREFIX})
 message(STATUS "pkg-config path:              " ${CMAKE_PKG_CONFIG_PATH})
 
+add_custom_target(install-components)
+
 add_subdirectory(package)
 #add_subdirectory(hello-wayland)
 #add_subdirectory(wayland-simple-egl)

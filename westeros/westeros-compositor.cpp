@@ -2599,6 +2599,7 @@ static void* wstCompositorThread( void *arg )
       ERROR("unable to create primary display");
       goto exit;
    }
+   DEBUG("Created wl_display");
 
    ctx->display= display;
 
@@ -2607,48 +2608,56 @@ static void* wstCompositorThread( void *arg )
       ERROR("unable to create wl_shm interface");
       goto exit;
    }
+   DEBUG("Created wl_shm interface");
 
    if (!wl_global_create(ctx->display, &wl_compositor_interface, 3, ctx, wstCompositorBind))
    {
       ERROR("unable to create wl_compositor interface");
       goto exit;
    }
-   
+   DEBUG("Created wl_compositor interface");
+
    if (!wl_global_create(ctx->display, &wl_shell_interface, 1, ctx, wstShellBind))
    {
       ERROR("unable to create wl_shell interface");
       goto exit;
    }
+   DEBUG("Created wl_shell interface");
 
    if (!wl_global_create(ctx->display, &xdg_shell_interface, 1, ctx, wstXdgShellBind))
    {
       ERROR("unable to create xdg-shell interface");
       goto exit;
    }
-   
+   DEBUG("Created xdg-shell interface");
+
    if (!wl_global_create(ctx->display, &wl_vpc_interface, 1, ctx, wstVpcBind ))
    {
       ERROR("unable to create wl_vpc interface");
       goto exit;
    }
-   
+   DEBUG("Created wl_vpc interface");
+
    if ( !wstOutputInit(ctx) )
    {
       ERROR("unable to intialize output");
       goto exit;
    }
+   DEBUG("Initialized output");
 
    if ( !wstSeatInit( ctx ) )
    {
       ERROR("unable to intialize seat");
       goto exit;
    }
-   
+   DEBUG("Initialized seat");
+
    if (!wl_global_create(ctx->display, &wl_seat_interface, 4, ctx->seat, wstSeatBind))
    {
       ERROR("unable to create wl_seat interface");
       goto exit;
    }
+   DEBUG("Created wl_seat interface");
 
    loop= wl_display_get_event_loop(ctx->display);
    if ( !loop )
@@ -2656,7 +2665,8 @@ static void* wstCompositorThread( void *arg )
       ERROR("unable to get wayland event loop");
       goto exit;
    }
-   
+   DEBUG("Retrieved wayland event loop");
+
    if ( ctx->displayName )
    {
       rc= wl_display_add_socket( ctx->display, ctx->displayName );
@@ -2728,22 +2738,28 @@ static void* wstCompositorThread( void *arg )
          ERROR("unable to get EGL display");
          goto exit;
       }
+      DEBUG("Retrieved wayland EGL display");
       EGLBoolean rc= ctx->eglBindWaylandDisplayWL( ctx->eglDisplay, ctx->display );
       if ( !rc )
       {
          ERROR("unable to bind wayland display");
          goto exit;
       }
+      DEBUG("Bound to wayland EGL display");
+      #else
+      DEBUG("Do not have wayland EGL display");
       #endif
    }
    else
    {
+      DEBUG("Creating renderer (%s)", ctx->rendererModule);
       ctx->renderer= WstRendererCreate( ctx->rendererModule, argc, (char **)argv, ctx->display, ctx->nc );
       if ( !ctx->renderer )
       {
          ERROR("unable to initialize renderer module");
          goto exit;
       }
+      DEBUG("Created renderer (%s)", ctx->rendererModule);
    }
 
    if ( ctx->remoteBegin && ctx->ncDisplay )
@@ -2753,7 +2769,8 @@ static void* wstCompositorThread( void *arg )
          ERROR("remoteBegin failure");
          goto exit;
       }
-   }
+        DEBUG("remoteBegin success");
+    }
 
    #ifdef ENABLE_SBPROTOCOL
    ctx->sb= WstSBInit( ctx->display, &sbCallbacks, ctx );
@@ -2762,6 +2779,7 @@ static void* wstCompositorThread( void *arg )
       ERROR("unable to create wl_sb interface");
       goto exit;
    }
+    DEBUG("Created wl_sb interface");
    #endif
    
    ctx->simpleShell= WstSimpleShellInit( ctx->display, &simpleShellCallbacks, ctx );

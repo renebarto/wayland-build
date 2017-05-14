@@ -109,7 +109,8 @@ WstRenderer* WstRendererCreate( const char *moduleName, int argc, char **argv, s
          error= true;
          goto exit;
       }
-      
+      printf("WstRendererCreate: loaded module (%s)\n", moduleName);
+
       init= dlsym( module, RENDERER_MODULE_INIT );
       if ( !init )
       {
@@ -118,11 +119,13 @@ WstRenderer* WstRendererCreate( const char *moduleName, int argc, char **argv, s
          error= true;
          goto exit;
       }
+      printf("WstRendererCreate: loaded module (%s) method (%s)\n", moduleName, RENDERER_MODULE_INIT);
 
       renderer->outputWidth= width;
       renderer->outputHeight= height;
       renderer->nativeWindow= nativeWindow;
       
+      printf("WstRendererCreate: module (%s) initialization\n", moduleName );
       rc= ((WSTMethodRenderInit)init)( renderer, argc, argv );
       if ( rc )
       {
